@@ -16,22 +16,22 @@ servers:
 paths:
   /priority:
     get:
-      description: Returns the grant for a specific priority permission
-      operationId: get priority permission grant
+      description: Returns the grant for a specific priority grant
+      operationId: get priority grant
       parameters:
         - $ref: '#/components/parameters/xCorrelationId'
         - $ref: '#/components/parameters/bearerAuthentication'
         - $ref: '#/components/parameters/mobileNumberPathParameter'
-        - $ref: '#/components/parameters/priorityPermissionPathParameter'
+        - $ref: '#/components/parameters/priorityGrantPathParameter'
       responses:
         '200':
-          description: Priority Permissions Response
+          description: Priority Grants Response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PermissionsResponse'
+                $ref: '#/components/schemas/PriorityResponse'
         '401':
-          description: Priority Permissions Unauthorised Error
+          description: Priority Grants Unauthorised Error
           content:
             application/json:
               schema:
@@ -43,13 +43,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/NotFoundError'
         '500':
-          description: Priority Permissions Server Error
+          description: Priority Grants Server Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerError'
         default:
-          description: Priority Permissions Invalid Request Error
+          description: Priority Grants Invalid Request Error
           content:
             application/json:
               schema:
@@ -86,31 +86,26 @@ components:
       description: Mobile Number
       schema:
         type: string
-    priorityPermissionPathParameter:
-      name: priorityPermission
+    priorityGrantPathParameter:
+      name: priorityGrant
       required: true
       in: query
-      description: Priority Permission from Enum
+      description: Priority Grant from Enum
       schema:
         type: string
   schemas:
-    PermissionsResponse:
-      title: Permission Response
+    PriorityResponse:
+      title: Priority Response
       additionalProperties: false
       required:
-        - permission
+        - priority
+        - valid
       properties:
-        permission:
-          type: object
-          additionalProperties: false
-          required:
-            - grant
-            - priority
-          properties:
-            grant:
-              type: string
-            priority:
-              type: boolean
+        priority:
+          type: string
+          example: 'food::delivery'
+        valid:
+          type: boolean
     NotFoundError:
       title: Not Found Error
       additionalProperties: false

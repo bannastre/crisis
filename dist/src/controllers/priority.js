@@ -7,25 +7,25 @@ class PriorityController {
     constructor() {
         this.get = (req, res, next) => {
             try {
-                const { priorityPermission, mobileNumber } = req.query;
+                const { priorityGrant, mobileNumber } = req.query;
                 let grant;
-                switch (priorityPermission) {
+                switch (priorityGrant) {
                     case types_1.GrantEnum.FOOD_DELIVERY:
                         if (mobileNumberArray.includes(mobileNumber)) {
-                            grant = { grant: types_1.GrantEnum.FOOD_DELIVERY, priority: true };
+                            grant = { priority: types_1.GrantEnum.FOOD_DELIVERY, valid: true };
                         }
                         else {
-                            grant = { grant: types_1.GrantEnum.FOOD_DELIVERY, priority: false };
+                            grant = { priority: types_1.GrantEnum.FOOD_DELIVERY, valid: false };
                         }
                         break;
                     default:
-                        throw new Error(types_1.ErrorEnum.PRIORITY_PERMISSION_NOT_FOUND);
+                        throw new Error(types_1.ErrorEnum.PRIORITY_GRANT_NOT_FOUND);
                 }
                 res.status(http2_1.constants.HTTP_STATUS_OK).json(grant);
             }
             catch (err) {
                 switch (err.message) {
-                    case types_1.ErrorEnum.PRIORITY_PERMISSION_NOT_FOUND:
+                    case types_1.ErrorEnum.PRIORITY_GRANT_NOT_FOUND:
                         res.status(404).end();
                         break;
                     default:

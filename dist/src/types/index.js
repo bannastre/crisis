@@ -6,6 +6,6 @@ var GrantEnum;
 })(GrantEnum = exports.GrantEnum || (exports.GrantEnum = {}));
 var ErrorEnum;
 (function (ErrorEnum) {
-    ErrorEnum["PRIORITY_PERMISSION_NOT_FOUND"] = "404 - Not Found";
+    ErrorEnum["PRIORITY_GRANT_NOT_FOUND"] = "404 - Not Found";
 })(ErrorEnum = exports.ErrorEnum || (exports.ErrorEnum = {}));
 //# sourceMappingURL=index.js.map

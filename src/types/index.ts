@@ -5,7 +5,7 @@ export enum GrantEnum {
 }
 
 export enum ErrorEnum {
-  PRIORITY_PERMISSION_NOT_FOUND = '404 - Not Found',
+  PRIORITY_GRANT_NOT_FOUND = '404 - Not Found',
 }
 
 export interface IScopedRequest extends Request {
@@ -13,6 +13,6 @@ export interface IScopedRequest extends Request {
 }
 
 export interface IGrant {
-  grant: GrantEnum
-  priority: boolean
+  priority: GrantEnum
+  valid: boolean
 }
