@@ -105,11 +105,11 @@ components:
           additionalProperties: false
           required:
             - grant
-            - result
+            - priority
           properties:
             grant:
               type: string
-            result:
+            priority:
               type: boolean
     NotFoundError:
       title: Not Found Error

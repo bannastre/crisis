@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const http2_1 = require("http2");
 const config_1 = __importDefault(require("../../config"));
-const permission_1 = require("./permission");
+const priority_1 = require("./priority");
 const router = express_1.default.Router();
 router.get('/healthcheck/ping', (_, res) => res.status(200).send({ message: 'ok' }));
 router.get('/healthcheck/ready', (_, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -36,6 +36,6 @@ router.get('/healthcheck/ready', (_, res) => __awaiter(void 0, void 0, void 0, f
         res.status(http2_1.constants.HTTP_STATUS_SERVICE_UNAVAILABLE).send();
     }
 }));
-router.use('/permission', permission_1.permissionRouter);
+router.use('/priority', priority_1.priorityRouter);
 exports.default = router;
 //# sourceMappingURL=index.js.map

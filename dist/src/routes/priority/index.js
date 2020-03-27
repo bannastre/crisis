@@ -4,8 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-exports.permissionRouter = express_1.default.Router();
-exports.permissionRouter.use('/', (req, res, next) => {
-    res.send({ message: 'OK' });
-});
+const controllers_1 = require("../../controllers");
+exports.priorityRouter = express_1.default.Router();
+const priorityController = new controllers_1.PriorityController();
+exports.priorityRouter.get('/', priorityController.get);
 //# sourceMappingURL=index.js.map

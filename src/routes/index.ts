@@ -2,7 +2,7 @@ import express, { Response } from 'express'
 import { constants } from 'http2'
 import config from '../../config'
 
-import { permissionRouter } from './permission'
+import { priorityRouter } from './priority'
 
 const router = express.Router()
 
@@ -24,6 +24,6 @@ router.get('/healthcheck/ready', async (_: any, res: Response) => {
   }
 })
 
-router.use('/permission', permissionRouter)
+router.use('/priority', priorityRouter)
 
 export default router

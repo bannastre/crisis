@@ -1,7 +1,8 @@
 import cors from 'cors'
-import express from 'express'
+import express, { NextFunction, Request, Response } from 'express'
 import logger from 'morgan'
 import cookieParser from 'cookie-parser'
+import createError from 'http-errors'
 import config from '../config'
 import indexRouter from './routes'
 
@@ -26,8 +27,10 @@ export async function start(): Promise<http.Server> {
 
   app.use(config.basePath, indexRouter)
 
-  app.use((err: any, _: any, __: any, next: any) => {
-    console.error(err)
+  app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+    res.locals.message = err.message
+    res.locals.error = req.app.get('env') === 'development' ? err : {}
+    res.status(err.status || 500)
     next(err)
   })
 
