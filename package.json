@@ -8,17 +8,18 @@
     "node": ">12.0"
   },
   "scripts": {
-    "start": "npm run build && node dist/server.js",
+    "start": "node dist/server.js",
     "dev": "concurrently -k \"npm run build:watch\" \"npm run start:dev\"",
-    "build": "./node_modules/.bin/tsc --build tsconfig.json || echo done",
-    "build:watch": "./node_modules/.bin/tsc --build tsconfig.json -w || echo done",
+    "build": "./node_modules/.bin/tsc --build tsconfig.json && echo done",
+    "build:watch": "./node_modules/.bin/tsc --build tsconfig.json -w",
     "start:dev": "nodemon --inspect=0.0.0.0:9229 dist/server.js",
     "copy-definitions": "cp -r ./definitions ./dist",
     "test": "npm run build && npm run test:feature",
     "test:feature": "ENV=test cucumber-js 'test/**/**/*.feature' -r './dist/test/**/*.steps.js' --require ./dist/test/*.steps.js --require-module ts-node/register --exit",
     "test:cov": "rm -rf ./coverage && ENV=test ./node_modules/.bin/nyc npm t",
-    "docker:build": "docker build -t crisis-microservice .",
-    "docker:run": "docker run -d -p 3000:3000 crisis-microservice"
+    "docker": "docker-compose up --build",
+    "docker:build": "docker build -t crisis:0.0.1 .",
+    "docker:run": "docker run -d -p 3000:3000 crisis:0.0.1"
   },
   "dependencies": {
     "axios": "^0.19.2",
@@ -30,7 +31,6 @@
     "express-jwt": "^5.3.1",
     "express-openapi-validator": "^3.10.0",
     "helmet": "^3.21.3",
-    "knex": "^0.20.11",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "morgan": "~1.9.1",
@@ -104,6 +104,13 @@
       "text-summary",
       "html"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run build",
+      "pre-push": "npm test",
+      "...": "..."
+    }
   },
   "author": "Jigsaw XYZ",
   "license": "ISC"
