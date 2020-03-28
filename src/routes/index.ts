@@ -1,6 +1,6 @@
 import express, { Response } from 'express'
 import { constants } from 'http2'
-import config from '../../config'
+import config from '../config'
 
 import { priorityRouter } from './priority'
 

@@ -3,7 +3,7 @@ import express, { NextFunction, Request, Response } from 'express'
 import logger from 'morgan'
 import cookieParser from 'cookie-parser'
 import createError from 'http-errors'
-import config from '../config'
+import config from './config'
 import indexRouter from './routes'
 
 import * as http from 'http'

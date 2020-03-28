@@ -19,7 +19,7 @@ const cucumber_1 = require("cucumber");
 const request_promise_1 = __importDefault(require("request-promise"));
 const uuid_1 = require("uuid");
 const app_1 = require("../src/app");
-const config_1 = __importDefault(require("../config"));
+const config_1 = __importDefault(require("../src/config"));
 dotenv_1.default.config();
 chai_1.default.should();
 cucumber_1.BeforeAll(() => __awaiter(void 0, void 0, void 0, function* () {

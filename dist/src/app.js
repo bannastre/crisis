@@ -16,7 +16,7 @@ const cors_1 = __importDefault(require("cors"));
 const express_1 = __importDefault(require("express"));
 const morgan_1 = __importDefault(require("morgan"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
-const config_1 = __importDefault(require("../config"));
+const config_1 = __importDefault(require("./config"));
 const routes_1 = __importDefault(require("./routes"));
 const app = express_1.default();
 function start() {

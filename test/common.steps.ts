@@ -7,7 +7,7 @@ import rp from 'request-promise'
 import { v4 } from 'uuid'
 
 import app, { start } from '../src/app'
-import config from '../config'
+import config from '../src/config'
 
 dotenv.config()
 

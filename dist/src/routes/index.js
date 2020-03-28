@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const http2_1 = require("http2");
-const config_1 = __importDefault(require("../../config"));
+const config_1 = __importDefault(require("../config"));
 const priority_1 = require("./priority");
 const router = express_1.default.Router();
 router.get('/healthcheck/ping', (_, res) => res.status(200).send({ message: 'ok' }));
