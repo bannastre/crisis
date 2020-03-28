@@ -2,7 +2,7 @@ import { IScopedRequest, IGrant, GrantEnum, ErrorEnum } from '../types'
 import { NextFunction, Response } from 'express'
 import { constants } from 'http2'
 
-const mobileNumberArray = ['07843627130']
+const mobileNumberArray = ['07843627131']
 
 export default class PriorityController {
   public get = (req: IScopedRequest, res: Response, next: NextFunction) => {

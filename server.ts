@@ -4,7 +4,7 @@ const init = async () => {
   try {
     const server = await start()
   } catch (err) {
-    console.err(err)
+    console.error(err)
   }
 }
 

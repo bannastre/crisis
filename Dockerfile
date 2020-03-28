@@ -4,14 +4,18 @@ FROM node:12.7-alpine
 FROM spokedev/node_base:alpine_12 AS base
 RUN npm set progress=false
 RUN apk add --no-cache git
+
 EXPOSE 3000
+
 WORKDIR /usr/src/app
 
-COPY package.json ./
+COPY package.json .
 
-COPY dist ./dist/
+RUN npm install
 
-RUN npm install --only=production --no-optional --no-audit
+ADD . /usr/src/app
 
-EXPOSE 3000
-CMD ["node", "dist/server.js"] 
+RUN npm install
+RUN npm run build
+
+CMD ./scripts/start.sh
