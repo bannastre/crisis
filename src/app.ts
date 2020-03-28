@@ -3,6 +3,7 @@ import express, { NextFunction, Request, Response } from 'express'
 import logger from 'morgan'
 import cookieParser from 'cookie-parser'
 import config from './config'
+import dbSchema from './db'
 import indexRouter from './routes'
 import { OpenApiValidator } from 'express-openapi-validator'
 import * as http from 'http'
@@ -14,6 +15,15 @@ export async function start(): Promise<http.Server> {
   try {
     console.debug('configuring using....')
     console.debug(config)
+
+    const connections = await dbSchema.initialiseDatabaseConnections()
+    connections.map((connection: any) => {
+      console.log(
+        `${connection.name}: ${connection.options.username}@${connection.options.host}:${connection.options.port}
+        (${connection.options.database})\n`,
+        `connected: ${connection.isConnected}`
+      )
+    })
 
     app.disable('x-powered-by')
 

@@ -36,10 +36,8 @@
     "morgan": "~1.9.1",
     "mssql": "^6.2.0",
     "nodemon": "^2.0.2",
-    "pg": "^7.18.2",
-    "postgrator": "^3.11.0",
     "promisify": "0.0.3",
-    "sqlite3": "^4.1.1",
+    "reflect-metadata": "^0.1.13",
     "supertest": "^4.0.2",
     "typeorm": "^0.2.24",
     "typescript-tslint-plugin": "^0.5.5"

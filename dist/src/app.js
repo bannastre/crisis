@@ -17,6 +17,7 @@ const express_1 = __importDefault(require("express"));
 const morgan_1 = __importDefault(require("morgan"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const config_1 = __importDefault(require("./config"));
+const db_1 = __importDefault(require("./db"));
 const routes_1 = __importDefault(require("./routes"));
 const express_openapi_validator_1 = require("express-openapi-validator");
 const path_1 = __importDefault(require("path"));
@@ -26,6 +27,11 @@ function start() {
         try {
             console.debug('configuring using....');
             console.debug(config_1.default);
+            const connections = yield db_1.default.initialiseDatabaseConnections();
+            connections.map((connection) => {
+                console.log(`${connection.name}: ${connection.options.username}@${connection.options.host}:${connection.options.port}
+        (${connection.options.database})\n`, `connected: ${connection.isConnected}`);
+            });
             app.disable('x-powered-by');
             app.use(cors_1.default());
             app.use(morgan_1.default('dev'));

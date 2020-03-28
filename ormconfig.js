@@ -3,7 +3,7 @@ require('dotenv').config()
 
 module.exports = {
   name: 'default',
-  type: 'postgres',
+  type: 'mssql',
   logging: process.env.DB_SCHEMA_LOGGING,
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,

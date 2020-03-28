@@ -5,6 +5,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
+exports.mssqlConnection = {
+    name: 'default',
+    type: 'mssql',
+    host: process.env.DB_HOST || 'localhost',
+    username: process.env.DB_USER || 'sa',
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME || 'tempdb',
+    synchronize: true,
+    logging: false,
+    entities: ['dist/src/db/entities/**/*.js'],
+    migrations: ['dist/src/db/migrations/**/*.js'],
+    subscribers: ['dist/src/db/subscribers/**/*.js'],
+    cli: {
+        entitiesDir: 'dist/src/db/entities',
+        migrationsDir: 'dist/src/db/migrations',
+        subscribersDir: 'dist/src/db/subscribers',
+    },
+};
 const config = {
     name: process.env.NAME || 'crisis',
     basePath: process.env.BASE_PATH || '/crisis',
@@ -14,6 +32,7 @@ const config = {
     test: {
         url: `${process.env.HOST}:${process.env.PORT}` || 'http://localhost:3000',
     },
+    connection: exports.mssqlConnection,
 };
 exports.default = config;
 //# sourceMappingURL=config.js.map

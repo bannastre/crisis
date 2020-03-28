@@ -8,26 +8,22 @@ services:
     depends_on:
       - sql_server_db
     environment:
+      - ENV=develop
       - BASE_PATH=/crisis
       - HOST=http://localhost
       - PORT=3000
       - DB_HOST=sql_server_db
-      - DB_PORT=1433
-      - DB_PASSWORD=reallyStrongPwd123
-      - DB_USER=sa
-      - DB_CONNECTOR_MIGRATIONS=mssql
-      - DB_CONNECTOR=mssql
-      - DB_NAME=crisis
+      - DB_PASSWORD=ReallyStrongPassword123
     ports:
       - '3000:3000'
       - '9229:9229'
 
   sql_server_db:
-    image: microsoft/mssql-server-linux
+    image: microsoft/mssql-server-linux:2017-latest
     logging:
       driver: none
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=reallyStrongPwd123
+      - SA_PASSWORD=ReallyStrongPassword123
     ports:
-      - 1433
+      - 1433:1433
