@@ -10,26 +10,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
-let User = class User extends typeorm_1.BaseEntity {
+const types_1 = require("../../types");
+let Priority = class Priority {
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn(),
     __metadata("design:type", Number)
-], User.prototype, "id", void 0);
+], Priority.prototype, "id", void 0);
 __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
-], User.prototype, "firstName", void 0);
+], Priority.prototype, "grant", void 0);
 __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
-], User.prototype, "lastName", void 0);
+], Priority.prototype, "description", void 0);
 __decorate([
-    typeorm_1.Column(),
-    __metadata("design:type", Number)
-], User.prototype, "age", void 0);
-User = __decorate([
+    typeorm_1.CreateDateColumn(),
+    __metadata("design:type", String)
+], Priority.prototype, "createdAt", void 0);
+__decorate([
+    typeorm_1.UpdateDateColumn(),
+    __metadata("design:type", String)
+], Priority.prototype, "updatedAt", void 0);
+Priority = __decorate([
     typeorm_1.Entity()
-], User);
-exports.User = User;
-//# sourceMappingURL=user.js.map
+], Priority);
+exports.Priority = Priority;
+//# sourceMappingURL=priority.js.map

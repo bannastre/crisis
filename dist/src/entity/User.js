@@ -10,50 +10,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
-let Address = class Address {
+let User = class User {
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn(),
     __metadata("design:type", Number)
-], Address.prototype, "id", void 0);
+], User.prototype, "id", void 0);
 __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
-], Address.prototype, "addressLine1", void 0);
+], User.prototype, "firstName", void 0);
 __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
-], Address.prototype, "addressLine2", void 0);
+], User.prototype, "lastName", void 0);
 __decorate([
     typeorm_1.Column(),
-    __metadata("design:type", String)
-], Address.prototype, "addressLine3", void 0);
-__decorate([
-    typeorm_1.Column(),
-    __metadata("design:type", String)
-], Address.prototype, "city", void 0);
-__decorate([
-    typeorm_1.Column(),
-    __metadata("design:type", String)
-], Address.prototype, "region", void 0);
-__decorate([
-    typeorm_1.Column(),
-    __metadata("design:type", String)
-], Address.prototype, "country", void 0);
-__decorate([
-    typeorm_1.Column(),
-    __metadata("design:type", String)
-], Address.prototype, "postcode", void 0);
-__decorate([
-    typeorm_1.CreateDateColumn(),
-    __metadata("design:type", String)
-], Address.prototype, "createdAt", void 0);
-__decorate([
-    typeorm_1.UpdateDateColumn(),
-    __metadata("design:type", String)
-], Address.prototype, "updatedAt", void 0);
-Address = __decorate([
+    __metadata("design:type", Number)
+], User.prototype, "age", void 0);
+User = __decorate([
     typeorm_1.Entity()
-], Address);
-exports.Address = Address;
-//# sourceMappingURL=address.js.map
+], User);
+exports.User = User;
+//# sourceMappingURL=User.js.map

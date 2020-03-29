@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
 const address_1 = require("./address");
-let Identity = class Identity extends typeorm_1.BaseEntity {
+let Identity = class Identity {
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn(),
@@ -20,11 +20,11 @@ __decorate([
 __decorate([
     typeorm_1.Index({ unique: true }),
     typeorm_1.Column(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Identity.prototype, "smsNumber", void 0);
 __decorate([
     typeorm_1.Column(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Identity.prototype, "telNumber", void 0);
 __decorate([
     typeorm_1.Column(),
@@ -43,10 +43,18 @@ __decorate([
     __metadata("design:type", String)
 ], Identity.prototype, "dob", void 0);
 __decorate([
-    typeorm_1.OneToOne(type => address_1.Address, address => address.identity),
+    typeorm_1.OneToOne(type => address_1.Address),
     typeorm_1.JoinColumn(),
     __metadata("design:type", address_1.Address)
 ], Identity.prototype, "address", void 0);
+__decorate([
+    typeorm_1.CreateDateColumn(),
+    __metadata("design:type", String)
+], Identity.prototype, "createdAt", void 0);
+__decorate([
+    typeorm_1.UpdateDateColumn(),
+    __metadata("design:type", String)
+], Identity.prototype, "updatedAt", void 0);
 Identity = __decorate([
     typeorm_1.Entity()
 ], Identity);

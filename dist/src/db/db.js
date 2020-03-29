@@ -8,9 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
-const config_1 = require("../config");
+const config_1 = __importDefault(require("../config"));
 class Db {
     constructor(connectionOptions) {
         this.connectionOptions = connectionOptions;
@@ -43,7 +46,7 @@ class Db {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const connections = yield typeorm_1.createConnections([this.connectionOptions]);
-                this.connection = typeorm_1.getConnection('default');
+                this.connection = typeorm_1.getConnection('crisis_base');
                 return connections;
             }
             catch (e) {
@@ -53,6 +56,6 @@ class Db {
     }
 }
 exports.Db = Db;
-const db = new Db(config_1.mssqlConnection);
+const db = new Db(config_1.default.connection);
 exports.default = db;
 //# sourceMappingURL=db.js.map

@@ -5,8 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-exports.mssqlConnection = {
-    name: 'default',
+const mssqlConnection = {
+    name: 'crisis_base',
     type: 'mssql',
     host: process.env.DB_HOST || 'localhost',
     username: process.env.DB_USER || 'sa',
@@ -32,7 +32,7 @@ const config = {
     test: {
         url: `${process.env.HOST}:${process.env.PORT}` || 'http://localhost:3000',
     },
-    connection: exports.mssqlConnection,
+    connection: mssqlConnection,
 };
 exports.default = config;
 //# sourceMappingURL=config.js.map

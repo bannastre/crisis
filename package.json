@@ -17,6 +17,11 @@
     "test": "npm run build && npm run test:feature",
     "test:feature": "ENV=test cucumber-js 'test/**/**/*.feature' -r './dist/test/**/*.steps.js' --require ./dist/test/*.steps.js --require-module ts-node/register --exit",
     "test:cov": "rm -rf ./coverage && ENV=test ./node_modules/.bin/nyc npm t",
+    "typeorm:cli": "ts-node ./node_modules/typeorm/cli -f ./ormconfig.js",
+    "db:migrate": "npm run typeorm:cli migration:run",
+    "db:migrate:revert": "npm run typeorm:cli migration:revert",
+    "db:sync": "npm run build && npm run typeorm:cli schema:sync",
+    "db:drop": "npm run typeorm:cli schema:drop",
     "docker": "docker-compose up --build --force-recreate",
     "docker:build": "docker build -t crisis:0.0.1 .",
     "docker:run": "docker run -d -p 3000:3000 crisis:0.0.1"

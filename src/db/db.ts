@@ -1,5 +1,5 @@
 import { Connection, ConnectionOptions, createConnections, getConnection } from 'typeorm'
-import { mssqlConnection } from '../config'
+import config from '../config'
 
 export class Db {
   protected connection: Connection
@@ -31,7 +31,7 @@ export class Db {
   private async initTypeOrm(): Promise<Connection[]> {
     try {
       const connections = await createConnections([this.connectionOptions])
-      this.connection = getConnection('default')
+      this.connection = getConnection('crisis_base')
       return connections
     } catch (e) {
       throw e
@@ -39,5 +39,5 @@ export class Db {
   }
 }
 
-const db = new Db(mssqlConnection)
+const db = new Db(config.connection)
 export default db

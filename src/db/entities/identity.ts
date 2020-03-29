@@ -1,34 +1,59 @@
-import { BaseEntity, Column, Entity, Index, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  Index,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm'
 import { Address } from './address'
 
+export interface IIdentity {
+  id?: number
+  smsNumber: string
+  telNumber: string
+  firstName: string
+  lastName: string
+  email: string
+  dob: string
+  address?: Address
+  createdAt?: string
+  updatedAt?: string
+}
+
 @Entity()
-export class Identity extends BaseEntity {
+export class Identity {
   @PrimaryGeneratedColumn()
-  id: number
+  public id: number
 
   @Index({ unique: true })
   @Column()
-  smsNumber: number
+  public smsNumber: string
 
   @Column()
-  telNumber: number
+  public telNumber: string
 
   @Column()
-  firstName: string
+  public firstName: string
 
   @Column()
-  lastName: string
+  public lastName: string
 
   @Column()
-  email: string
+  public email: string
 
   @Column()
-  dob: string
+  public dob: string
 
-  @OneToOne(
-    type => Address,
-    address => address.identity
-  )
+  @OneToOne(type => Address)
   @JoinColumn()
-  address: Address
+  public address: Address
+
+  @CreateDateColumn()
+  public createdAt: string
+
+  @UpdateDateColumn()
+  public updatedAt: string
 }
