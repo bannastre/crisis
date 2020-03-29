@@ -27,11 +27,13 @@ function start() {
         try {
             console.debug('configuring using....');
             console.debug(config_1.default);
-            const connections = yield db_1.default.initialiseDatabaseConnections();
-            connections.map((connection) => {
-                console.log(`${connection.name}: ${connection.options.username}@${connection.options.host}:${connection.options.port}
-        (${connection.options.database})\n`, `connected: ${connection.isConnected}`);
-            });
+            if (config_1.default.env !== 'test') {
+                const connections = yield db_1.default.initialiseDatabaseConnections();
+                connections.map((connection) => {
+                    console.log(`${connection.name}: ${connection.options.username}@${connection.options.host}:${connection.options.port}
+          (${connection.options.database})\n`, `connected: ${connection.isConnected}`);
+                });
+            }
             app.disable('x-powered-by');
             app.use(cors_1.default());
             app.use(morgan_1.default('dev'));

@@ -16,14 +16,16 @@ export async function start(): Promise<http.Server> {
     console.debug('configuring using....')
     console.debug(config)
 
-    const connections = await dbSchema.initialiseDatabaseConnections()
-    connections.map((connection: any) => {
-      console.log(
-        `${connection.name}: ${connection.options.username}@${connection.options.host}:${connection.options.port}
-        (${connection.options.database})\n`,
-        `connected: ${connection.isConnected}`
-      )
-    })
+    if (config.env !== 'test') {
+      const connections = await dbSchema.initialiseDatabaseConnections()
+      connections.map((connection: any) => {
+        console.log(
+          `${connection.name}: ${connection.options.username}@${connection.options.host}:${connection.options.port}
+          (${connection.options.database})\n`,
+          `connected: ${connection.isConnected}`
+        )
+      })
+    }
 
     app.disable('x-powered-by')
 
