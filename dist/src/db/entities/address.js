@@ -13,8 +13,8 @@ const typeorm_1 = require("typeorm");
 let Address = class Address {
 };
 __decorate([
-    typeorm_1.PrimaryGeneratedColumn(),
-    __metadata("design:type", Number)
+    typeorm_1.PrimaryGeneratedColumn('uuid'),
+    __metadata("design:type", String)
 ], Address.prototype, "id", void 0);
 __decorate([
     typeorm_1.Column(),

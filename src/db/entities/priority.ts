@@ -2,7 +2,7 @@ import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateCol
 import { GrantEnum } from '../../types'
 
 export interface IPriority {
-  id?: number
+  id?: string
   grant: GrantEnum
   description: string
   createdAt?: string
@@ -11,8 +11,8 @@ export interface IPriority {
 
 @Entity()
 export class Priority {
-  @PrimaryGeneratedColumn()
-  public id: number
+  @PrimaryGeneratedColumn('uuid')
+  public id: string
 
   @Column()
   public grant: GrantEnum

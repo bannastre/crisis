@@ -11,7 +11,7 @@ import {
 import { Address } from './address'
 
 export interface IIdentity {
-  id?: number
+  id?: string
   smsNumber: string
   telNumber: string
   firstName: string
@@ -25,14 +25,14 @@ export interface IIdentity {
 
 @Entity()
 export class Identity {
-  @PrimaryGeneratedColumn()
-  public id: number
+  @PrimaryGeneratedColumn('uuid')
+  public id: string
 
   @Index({ unique: true })
-  @Column()
+  @Column({ nullable: false })
   public smsNumber: string
 
-  @Column()
+  @Column({ nullable: true })
   public telNumber: string
 
   @Column()

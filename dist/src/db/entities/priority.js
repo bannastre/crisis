@@ -14,8 +14,8 @@ const types_1 = require("../../types");
 let Priority = class Priority {
 };
 __decorate([
-    typeorm_1.PrimaryGeneratedColumn(),
-    __metadata("design:type", Number)
+    typeorm_1.PrimaryGeneratedColumn('uuid'),
+    __metadata("design:type", String)
 ], Priority.prototype, "id", void 0);
 __decorate([
     typeorm_1.Column(),

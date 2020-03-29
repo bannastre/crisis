@@ -14,16 +14,16 @@ const address_1 = require("./address");
 let Identity = class Identity {
 };
 __decorate([
-    typeorm_1.PrimaryGeneratedColumn(),
-    __metadata("design:type", Number)
+    typeorm_1.PrimaryGeneratedColumn('uuid'),
+    __metadata("design:type", String)
 ], Identity.prototype, "id", void 0);
 __decorate([
     typeorm_1.Index({ unique: true }),
-    typeorm_1.Column(),
+    typeorm_1.Column({ nullable: false }),
     __metadata("design:type", String)
 ], Identity.prototype, "smsNumber", void 0);
 __decorate([
-    typeorm_1.Column(),
+    typeorm_1.Column({ nullable: true }),
     __metadata("design:type", String)
 ], Identity.prototype, "telNumber", void 0);
 __decorate([

@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 
 export interface IAddress {
-  id?: number
+  id?: string
   addressLine1: string
   addressLine2: string
   addressLine3: string
@@ -15,8 +15,8 @@ export interface IAddress {
 
 @Entity()
 export class Address {
-  @PrimaryGeneratedColumn()
-  public id: number
+  @PrimaryGeneratedColumn('uuid')
+  public id: string
 
   @Column()
   public addressLine1: string
