@@ -21,7 +21,7 @@ class PriorityService {
     errorHandler(err) {
         switch (err.name) {
             case 'EntityNotFound':
-                return new Error(types_1.ErrorEnum.PRIORITY_GRANT_NOT_FOUND);
+                return new Error(types_1.ErrorEnum.IDENTITY_NOT_FOUND);
             default:
                 return new Error(types_1.ErrorEnum.UNKNOWN_ERROR);
         }
@@ -41,7 +41,6 @@ class PriorityService {
                 const identitypriority = yield identitypriorityRepository.findOne({
                     where: { identityId: identity.id, priority },
                 });
-                console.log(`[priorityService::findGrantsByMobileNo] identity-priority found`);
                 console.log(`[priorityService::findGrantsByMobileNo] Priority Grant checked against identity.smsnumber`);
                 return { priority: priorityGrant, valid: !!identitypriority };
             }
