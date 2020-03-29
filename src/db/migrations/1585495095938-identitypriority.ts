@@ -14,8 +14,8 @@ export class Identitypriority1585495095938 implements MigrationInterface {
     const priorityRepository = transaction.manager.getRepository(Priority)
     const identitypriorityRepository = transaction.manager.getRepository(Identitypriority)
 
-    const identity = await identityRepository.findOneOrFail()
-    const priority = await priorityRepository.findOneOrFail()
+    const identity: IIdentity = await identityRepository.findOneOrFail()
+    const priority: IPriority = await priorityRepository.findOneOrFail()
 
     const identitypriorityEntity: IIdentitypriority = identitypriorityRepository.create({
       identityId: identity.id,
