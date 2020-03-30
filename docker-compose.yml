@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  db:
+    container_name: 'crisis-db-mssql'
+    image: 'microsoft/mssql-server-linux:2017-latest'
+    ports:
+      - '1433:1433'
+    environment:
+      - SA_PASSWORD=ReallyStrongPassword123
+      - ACCEPT_EULA=Y
+
+  app:
+    container_name: 'crisis-app'
+    build: .
+    depends_on:
+      - db
+    command: ['./scripts/wait-for-it.sh', 'db:1433', '--', './scripts/start.sh']
+    restart: on-failure
+    environment:
+      - ENV=develop
+      - BASE_PATH=/crisis
+      - DB_HOST=db
+      - DB_PASSWORD=ReallyStrongPassword123
+    ports:
+      - '3000:3000'
+      - '9229:9229'

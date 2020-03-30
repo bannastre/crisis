@@ -8,17 +8,24 @@
     "node": ">12.0"
   },
   "scripts": {
-    "start": "npm run build && node dist/server.js",
+    "start": "node dist/server.js",
     "dev": "concurrently -k \"npm run build:watch\" \"npm run start:dev\"",
-    "build": "./node_modules/.bin/tsc --build tsconfig.json || echo done",
-    "build:watch": "./node_modules/.bin/tsc --build tsconfig.json -w || echo done",
+    "build": "./node_modules/.bin/tsc --build tsconfig.json && echo done",
+    "build:watch": "./node_modules/.bin/tsc --build tsconfig.json -w",
     "start:dev": "nodemon --inspect=0.0.0.0:9229 dist/server.js",
     "copy-definitions": "cp -r ./definitions ./dist",
     "test": "npm run build && npm run test:feature",
     "test:feature": "ENV=test cucumber-js 'test/**/**/*.feature' -r './dist/test/**/*.steps.js' --require ./dist/test/*.steps.js --require-module ts-node/register --exit",
     "test:cov": "rm -rf ./coverage && ENV=test ./node_modules/.bin/nyc npm t",
-    "docker:build": "docker build -t crisis-microservice .",
-    "docker:run": "docker run -d -p 3000:3000 crisis-microservice"
+    "typeorm:cli": "ts-node ./node_modules/typeorm/cli -f ./ormconfig.js",
+    "db:migrate": "npm run typeorm:cli migration:run",
+    "db:migrate:revert": "npm run typeorm:cli migration:revert",
+    "db:sync": "npm run build && npm run typeorm:cli schema:sync",
+    "db:drop": "npm run typeorm:cli schema:drop",
+    "docker:up": "docker-compose up --build --force-recreate",
+    "docker:down": "docker-compose down --remove-orphans -v",
+    "docker:build": "docker build -t crisis:0.0.1 .",
+    "docker:run": "docker run -d -p 3000:3000 crisis:0.0.1"
   },
   "dependencies": {
     "axios": "^0.19.2",
@@ -28,17 +35,15 @@
     "dotenv": "^8.2.0",
     "express": "4.17.1",
     "express-jwt": "^5.3.1",
+    "express-openapi-validator": "^3.10.0",
     "helmet": "^3.21.3",
-    "knex": "^0.20.11",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "morgan": "~1.9.1",
     "mssql": "^6.2.0",
     "nodemon": "^2.0.2",
-    "pg": "^7.18.2",
-    "postgrator": "^3.11.0",
     "promisify": "0.0.3",
-    "sqlite3": "^4.1.1",
+    "reflect-metadata": "^0.1.13",
     "supertest": "^4.0.2",
     "typeorm": "^0.2.24",
     "typescript-tslint-plugin": "^0.5.5"
@@ -103,6 +108,13 @@
       "text-summary",
       "html"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run build",
+      "pre-push": "npm test",
+      "...": "..."
+    }
   },
   "author": "Jigsaw XYZ",
   "license": "ISC"
