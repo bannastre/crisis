@@ -1,10 +1,10 @@
 import { Request } from 'express'
 import { GrantEnum, ErrorEnum } from './enums'
-import { IScopedRequest } from './contracts'
+import { IScopedRequest, IGrantResponse } from './contracts'
 
 interface IGrant {
   priority: GrantEnum
   valid: boolean
 }
 
-export { ErrorEnum, GrantEnum, IGrant, IScopedRequest }
+export { ErrorEnum, GrantEnum, IGrant, IGrantResponse, IScopedRequest }

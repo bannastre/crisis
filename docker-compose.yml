@@ -1,33 +1,27 @@
 version: '3.7'
 
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    depends_on:
-      - sql_server_db
+  db:
+    container_name: 'crisis-db-mssql'
+    image: 'microsoft/mssql-server-linux:2017-latest'
+    ports:
+      - '1433:1433'
     environment:
+      - SA_PASSWORD=ReallyStrongPassword123
+      - ACCEPT_EULA=Y
+
+  app:
+    container_name: 'crisis-app'
+    build: .
+    depends_on:
+      - db
+    command: ['./scripts/wait-for-it.sh', 'db:1433', '--', './scripts/start.sh']
+    restart: on-failure
+    environment:
+      - ENV=develop
       - BASE_PATH=/crisis
-      - HOST=http://localhost
-      - PORT=3000
-      - DB_HOST=sql_server_db
-      - DB_PORT=1433
-      - DB_PASSWORD=reallyStrongPwd123
-      - DB_USER=sa
-      - DB_CONNECTOR_MIGRATIONS=mssql
-      - DB_CONNECTOR=mssql
-      - DB_NAME=crisis
+      - DB_HOST=db
+      - DB_PASSWORD=ReallyStrongPassword123
     ports:
       - '3000:3000'
       - '9229:9229'
-
-  sql_server_db:
-    image: microsoft/mssql-server-linux
-    logging:
-      driver: none
-    environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=reallyStrongPwd123
-    ports:
-      - 1433
