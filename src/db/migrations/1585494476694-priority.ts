@@ -4,6 +4,9 @@ import config from '../../config'
 import { GrantEnum } from '../../types'
 import { Priority, IPriority } from '../entities/priority'
 
+/**
+ * This creates a prorities
+ */
 export const priorityEntities: IPriority[] = [
   {
     grant: GrantEnum.FOOD_DELIVERY,
@@ -48,7 +51,6 @@ export class Priority1585494476694 implements MigrationInterface {
     await Promise.all(
       priorityEntities.map(async (priority: IPriority) => {
         const priorityEntity = priorityRepository.create(priority)
-        console.log('Priority1585494476694 -> priorityEntity', priorityEntity)
         return await priorityRepository.save(priorityEntity)
       })
     )

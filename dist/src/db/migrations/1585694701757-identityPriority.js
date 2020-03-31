@@ -19,9 +19,9 @@ const identitypriority_1 = require("../entities/identitypriority");
 const config_1 = __importDefault(require("../../config"));
 const types_1 = require("../../types");
 /**
- * This assigns a common grants to a key worker
+ * This assigns a common and unique grants to a vulnerable person
  */
-class Identitypriority1585495095938 {
+class IdentityPriority1585694701757 {
     up() {
         return __awaiter(this, void 0, void 0, function* () {
             yield __1.default.initialiseDatabaseConnections();
@@ -30,9 +30,9 @@ class Identitypriority1585495095938 {
             const priorityRepository = transaction.manager.getRepository(priority_1.Priority);
             const identitypriorityRepository = transaction.manager.getRepository(identitypriority_1.Identitypriority);
             // tslint:disable: variable-name
-            const identity_key = yield identityRepository.findOne({
+            const identity = yield identityRepository.findOne({
                 where: {
-                    lastName: 'Harper',
+                    lastName: 'Barton',
                 },
             });
             /**
@@ -43,7 +43,7 @@ class Identitypriority1585495095938 {
                 where: { grant: types_1.GrantEnum.FOOD_DELIVERY },
             });
             const food_delivery_identitypriority = identitypriorityRepository.create({
-                identity: identity_key,
+                identity,
                 priority: food_delivery_priority,
             });
             yield identitypriorityRepository.save(food_delivery_identitypriority);
@@ -55,10 +55,34 @@ class Identitypriority1585495095938 {
                 where: { grant: types_1.GrantEnum.TRANSPORT_PUBLIC },
             });
             const transport_public_identitypriority = identitypriorityRepository.create({
-                identity: identity_key,
+                identity,
                 priority: transport_public_priority,
             });
             yield identitypriorityRepository.save(transport_public_identitypriority);
+            /**
+             * HEALTHCARE_MEDECINE_DISPENSARY
+             *
+             */
+            const schooling_access_priority = yield priorityRepository.findOne({
+                where: { grant: types_1.GrantEnum.SCHOOLING_ACCESS },
+            });
+            const schooling_access_identitypriority = identitypriorityRepository.create({
+                identity,
+                priority: schooling_access_priority,
+            });
+            yield identitypriorityRepository.save(schooling_access_identitypriority);
+            /**
+             * HEALTHCARE_CARE_VISITORS
+             *
+             */
+            const healthccare_care_priority = yield priorityRepository.findOne({
+                where: { grant: types_1.GrantEnum.HEALTHCARE_CARE_VISITORS },
+            });
+            const healthccare_care_identitypriority = identitypriorityRepository.create({
+                identity,
+                priority: healthccare_care_priority,
+            });
+            yield identitypriorityRepository.save(healthccare_care_identitypriority);
             yield transaction.commitTransaction();
             yield __1.default.closeDatabaseConnections();
         });
@@ -69,5 +93,5 @@ class Identitypriority1585495095938 {
         });
     }
 }
-exports.Identitypriority1585495095938 = Identitypriority1585495095938;
-//# sourceMappingURL=1585495095938-identitypriority.js.map
+exports.IdentityPriority1585694701757 = IdentityPriority1585694701757;
+//# sourceMappingURL=1585694701757-identityPriority.js.map

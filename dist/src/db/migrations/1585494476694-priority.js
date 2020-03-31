@@ -16,6 +16,9 @@ const __1 = __importDefault(require("../"));
 const config_1 = __importDefault(require("../../config"));
 const types_1 = require("../../types");
 const priority_1 = require("../entities/priority");
+/**
+ * This creates a prorities
+ */
 exports.priorityEntities = [
     {
         grant: types_1.GrantEnum.FOOD_DELIVERY,
@@ -57,7 +60,6 @@ class Priority1585494476694 {
             const priorityRepository = transaction.manager.getRepository(priority_1.Priority);
             yield Promise.all(exports.priorityEntities.map((priority) => __awaiter(this, void 0, void 0, function* () {
                 const priorityEntity = priorityRepository.create(priority);
-                console.log('Priority1585494476694 -> priorityEntity', priorityEntity);
                 return yield priorityRepository.save(priorityEntity);
             })));
             yield transaction.commitTransaction();

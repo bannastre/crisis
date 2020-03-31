@@ -7,9 +7,9 @@ import config from '../../config'
 import { GrantEnum } from '../../types'
 
 /**
- * This assigns a common grants to a key worker
+ * This assigns a common and unique grants to a vulnerable person
  */
-export class Identitypriority1585495095938 implements MigrationInterface {
+export class IdentityPriority1585694701757 implements MigrationInterface {
   public async up(): Promise<any> {
     await dbSchema.initialiseDatabaseConnections()
     const transaction = await dbSchema.getTransaction()
@@ -19,9 +19,9 @@ export class Identitypriority1585495095938 implements MigrationInterface {
     const identitypriorityRepository = transaction.manager.getRepository(Identitypriority)
 
     // tslint:disable: variable-name
-    const identity_key: IIdentity = await identityRepository.findOne({
+    const identity: IIdentity = await identityRepository.findOne({
       where: {
-        lastName: 'Harper',
+        lastName: 'Barton',
       },
     })
 
@@ -33,7 +33,7 @@ export class Identitypriority1585495095938 implements MigrationInterface {
       where: { grant: GrantEnum.FOOD_DELIVERY },
     })
     const food_delivery_identitypriority: IIdentitypriority = identitypriorityRepository.create({
-      identity: identity_key,
+      identity,
       priority: food_delivery_priority,
     })
     await identitypriorityRepository.save(food_delivery_identitypriority)
@@ -46,10 +46,36 @@ export class Identitypriority1585495095938 implements MigrationInterface {
       where: { grant: GrantEnum.TRANSPORT_PUBLIC },
     })
     const transport_public_identitypriority: IIdentitypriority = identitypriorityRepository.create({
-      identity: identity_key,
+      identity,
       priority: transport_public_priority,
     })
     await identitypriorityRepository.save(transport_public_identitypriority)
+
+    /**
+     * HEALTHCARE_MEDECINE_DISPENSARY
+     *
+     */
+    const schooling_access_priority: IPriority = await priorityRepository.findOne({
+      where: { grant: GrantEnum.SCHOOLING_ACCESS },
+    })
+    const schooling_access_identitypriority: IIdentitypriority = identitypriorityRepository.create({
+      identity,
+      priority: schooling_access_priority,
+    })
+    await identitypriorityRepository.save(schooling_access_identitypriority)
+
+    /**
+     * HEALTHCARE_CARE_VISITORS
+     *
+     */
+    const healthccare_care_priority: IPriority = await priorityRepository.findOne({
+      where: { grant: GrantEnum.HEALTHCARE_CARE_VISITORS },
+    })
+    const healthccare_care_identitypriority: IIdentitypriority = identitypriorityRepository.create({
+      identity,
+      priority: healthccare_care_priority,
+    })
+    await identitypriorityRepository.save(healthccare_care_identitypriority)
 
     await transaction.commitTransaction()
     await dbSchema.closeDatabaseConnections()
