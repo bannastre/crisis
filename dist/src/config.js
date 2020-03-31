@@ -12,6 +12,8 @@ const mssqlConnection = {
     username: process.env.DB_USER || 'sa',
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME || 'tempdb',
+    connectionTimeout: 8000,
+    pool: { max: 50 },
     synchronize: true,
     logging: false,
     entities: ['dist/src/db/entities/**/*.js'],

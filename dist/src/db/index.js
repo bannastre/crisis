@@ -27,10 +27,10 @@ function initialiseDatabaseConnections() {
 // NOTE: READ COMMITTED due to race conditions on dirty transactions
 function getTransaction(isolationLevel = 'READ COMMITTED') {
     return __awaiter(this, void 0, void 0, function* () {
+        console.info('[DbSchema::getTransaction]');
         const connection = db_1.default.getConnection;
         const queryRunner = yield connection.createQueryRunner();
         yield queryRunner.startTransaction(isolationLevel);
-        console.info('DbSchema::getTransaction');
         if (isolationLevel === 'SERIALIZABLE') {
             queryRunner.query('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE READ ONLY DEFERRABLE');
         }

@@ -43,6 +43,7 @@ class PriorityService {
     }
     findGrantByMobileNo(priorityGrant, mobileNo) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log(`[priorityService::findGrantsByMobileNo] Transaction Opening`);
             const transaction = yield db_1.default.getTransaction();
             try {
                 console.log(`[priorityService::findGrantsByMobileNo] Issuing request for priority by identity.smsNumber`);
@@ -59,7 +60,7 @@ class PriorityService {
                 if (!identity) {
                     throw new helpers_1.FancyError('Identity not found', 404, 'EntityNotFound');
                 }
-                console.log(`[priorityService::findGrantsByMobileNo] identity found: ${JSON.stringify(identity)}`);
+                console.log(`[priorityService::findGrantsByMobileNo] identity found`);
                 const priorityRepository = transaction.manager.getRepository(priority_1.Priority);
                 const priority = yield priorityRepository.findOne({ where: { grant: priorityGrant } });
                 console.log(`[priorityService::findGrantsByMobileNo] priority found`);
@@ -75,7 +76,8 @@ class PriorityService {
                 throw this.errorHandler(err);
             }
             finally {
-                transaction.release();
+                yield transaction.release();
+                console.log(`[priorityService::findGrantsByMobileNo::Finally] Transaction released: ${transaction.isReleased}`);
             }
         });
     }

@@ -22,10 +22,10 @@ async function initialiseDatabaseConnections(): Promise<Connection[]> {
 // NOTE: Loosening restrictions on SERIALIZABLE transactions to
 // NOTE: READ COMMITTED due to race conditions on dirty transactions
 async function getTransaction(isolationLevel: IsolationLevel = 'READ COMMITTED'): Promise<QueryRunner> {
+  console.info('[DbSchema::getTransaction]')
   const connection: Connection = db.getConnection
   const queryRunner = await connection.createQueryRunner()
   await queryRunner.startTransaction(isolationLevel)
-  console.info('DbSchema::getTransaction')
   if (isolationLevel === 'SERIALIZABLE') {
     queryRunner.query('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE READ ONLY DEFERRABLE')
   }

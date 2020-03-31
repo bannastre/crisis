@@ -11,12 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = require("./src/app");
 const init = () => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const server = yield app_1.start();
-    }
-    catch (err) {
-        console.error(err);
-    }
+    yield app_1.start();
 });
 init();
 //# sourceMappingURL=server.js.map

@@ -1,4 +1,3 @@
-import express from 'express'
 import { parsePhoneNumberFromString, CountryCallingCode, NationalNumber } from 'libphonenumber-js'
 import { IGrantResponse, GrantEnum, ErrorEnum } from '../types'
 import dbSchema from '../db'
@@ -35,10 +34,10 @@ export default class PriorityService {
   }
 
   public async findGrantByMobileNo(priorityGrant: GrantEnum, mobileNo: string): Promise<IGrantResponse> {
+    console.log(`[priorityService::findGrantsByMobileNo] Transaction Opening`)
     const transaction = await dbSchema.getTransaction()
     try {
       console.log(`[priorityService::findGrantsByMobileNo] Issuing request for priority by identity.smsNumber`)
-
       const parsedMobileNumber = this.parseMobileNumber(mobileNo)
 
       const identityRepository = transaction.manager.getRepository(Identity)
@@ -56,7 +55,7 @@ export default class PriorityService {
       if (!identity) {
         throw new FancyError('Identity not found', 404, 'EntityNotFound')
       }
-      console.log(`[priorityService::findGrantsByMobileNo] identity found: ${JSON.stringify(identity)}`)
+      console.log(`[priorityService::findGrantsByMobileNo] identity found`)
 
       const priorityRepository = transaction.manager.getRepository(Priority)
       const priority: Priority = await priorityRepository.findOne({ where: { grant: priorityGrant } })
@@ -73,7 +72,8 @@ export default class PriorityService {
       console.error('[priorityService::findGrantsByMobileNo::Error] ' + err.message)
       throw this.errorHandler(err)
     } finally {
-      transaction.release()
+      await transaction.release()
+      console.log(`[priorityService::findGrantsByMobileNo::Finally] Transaction released: ${transaction.isReleased}`)
     }
   }
 }
