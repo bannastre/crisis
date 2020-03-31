@@ -34,11 +34,11 @@ export class Identity implements IIdentity {
   public id: string
 
   @Index({ unique: true })
+  @JoinColumn()
   @OneToOne(
     type => Phonenumber,
     phonenumber => phonenumber.id
   )
-  @JoinColumn()
   public smsNumber: Phonenumber
 
   @ManyToOne(

@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class FancyError extends Error {
-    constructor(message, status) {
+    constructor(message, status, name) {
         super(message);
-        this.name = 'FancyError';
+        this.name = name || 'FancyError';
         this.status = status || 500;
     }
 }

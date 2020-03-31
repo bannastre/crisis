@@ -18,14 +18,16 @@ __decorate([
     __metadata("design:type", String)
 ], Phonenumber.prototype, "id", void 0);
 __decorate([
-    typeorm_1.OneToMany(type => identity_1.Identity, identity => identity.address),
+    typeorm_1.OneToMany(type => identity_1.Identity, identity => identity.id),
     __metadata("design:type", Array)
 ], Phonenumber.prototype, "identities", void 0);
 __decorate([
+    typeorm_1.Index(),
     typeorm_1.Column('varchar', { nullable: false, length: 3 }),
     __metadata("design:type", Object)
 ], Phonenumber.prototype, "countryCode", void 0);
 __decorate([
+    typeorm_1.Index(),
     typeorm_1.Column('varchar', { nullable: false, length: 10 }),
     __metadata("design:type", Object)
 ], Phonenumber.prototype, "number", void 0);

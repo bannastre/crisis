@@ -17,15 +17,13 @@ const types_1 = require("../types");
 const db_1 = __importDefault(require("../db"));
 const identity_1 = require("../db/entities/identity");
 const priority_1 = require("../db/entities/priority");
-const phoneNumber_1 = require("../db/entities/phoneNumber");
 const identitypriority_1 = require("../db/entities/identitypriority");
 const helpers_1 = require("../helpers");
 class PriorityService {
     errorHandler(err) {
         switch (err.name) {
             case 'EntityNotFound':
-                const newError = new helpers_1.FancyError(types_1.ErrorEnum.ENTITY_NOT_FOUND, 404);
-                return newError;
+                return new helpers_1.FancyError(types_1.ErrorEnum.ENTITY_NOT_FOUND, 404);
             default:
                 return new helpers_1.FancyError(types_1.ErrorEnum.UNKNOWN_ERROR);
         }
@@ -49,14 +47,19 @@ class PriorityService {
             try {
                 console.log(`[priorityService::findGrantsByMobileNo] Issuing request for priority by identity.smsNumber`);
                 const parsedMobileNumber = this.parseMobileNumber(mobileNo);
-                const PhonenumberRepository = transaction.manager.getRepository(phoneNumber_1.Phonenumber);
-                const phonenumber = yield PhonenumberRepository.findOneOrFail({
-                    where: Object.assign({}, parsedMobileNumber),
-                });
-                console.log(`[priorityService::findGrantsByMobileNo] smsNumber found`);
                 const identityRepository = transaction.manager.getRepository(identity_1.Identity);
-                const identity = yield identityRepository.findOneOrFail({ where: { smsNumber: phonenumber } });
-                console.log(`[priorityService::findGrantsByMobileNo] identity found`);
+                const identities = yield identityRepository.find({
+                    relations: ['smsNumber'],
+                });
+                // FIXME: This is should be handled by a Join through the ORM
+                const identity = identities.filter((id) => {
+                    return (id.smsNumber.number === parsedMobileNumber.number &&
+                        id.smsNumber.countryCode === parsedMobileNumber.countryCode);
+                })[0];
+                if (!identity) {
+                    throw new helpers_1.FancyError('Identity not found', 404, 'EntityNotFound');
+                }
+                console.log(`[priorityService::findGrantsByMobileNo] identity found: ${JSON.stringify(identity)}`);
                 const priorityRepository = transaction.manager.getRepository(priority_1.Priority);
                 const priority = yield priorityRepository.findOne({ where: { grant: priorityGrant } });
                 console.log(`[priorityService::findGrantsByMobileNo] priority found`);

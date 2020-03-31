@@ -21,8 +21,8 @@ __decorate([
 ], Identity.prototype, "id", void 0);
 __decorate([
     typeorm_1.Index({ unique: true }),
-    typeorm_1.OneToOne(type => phoneNumber_1.Phonenumber, phonenumber => phonenumber.id),
     typeorm_1.JoinColumn(),
+    typeorm_1.OneToOne(type => phoneNumber_1.Phonenumber, phonenumber => phonenumber.id),
     __metadata("design:type", phoneNumber_1.Phonenumber)
 ], Identity.prototype, "smsNumber", void 0);
 __decorate([

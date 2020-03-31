@@ -7,9 +7,9 @@ interface IFancyError {
 export class FancyError extends Error {
   public status: number
 
-  constructor(message?: string, status?: number) {
+  constructor(message?: string, status?: number, name?: string) {
     super(message)
-    this.name = 'FancyError'
+    this.name = name || 'FancyError'
     this.status = status || 500
   }
 }

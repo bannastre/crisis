@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn, OneToMany } from 'typeorm'
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn, OneToMany, Index } from 'typeorm'
 import { CountryCallingCode, NationalNumber } from 'libphonenumber-js'
 import { Identity } from './identity'
 
@@ -18,13 +18,15 @@ export class Phonenumber implements IPhonenumber {
 
   @OneToMany(
     type => Identity,
-    identity => identity.address
+    identity => identity.id
   )
   public identities: Identity[]
 
+  @Index()
   @Column('varchar', { nullable: false, length: 3 })
   public countryCode: CountryCallingCode
 
+  @Index()
   @Column('varchar', { nullable: false, length: 10 })
   public number: NationalNumber
 

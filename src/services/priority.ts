@@ -12,8 +12,7 @@ export default class PriorityService {
   private errorHandler(err: any) {
     switch (err.name) {
       case 'EntityNotFound':
-        const newError = new FancyError(ErrorEnum.ENTITY_NOT_FOUND, 404)
-        return newError
+        return new FancyError(ErrorEnum.ENTITY_NOT_FOUND, 404)
       default:
         return new FancyError(ErrorEnum.UNKNOWN_ERROR)
     }
@@ -42,15 +41,22 @@ export default class PriorityService {
 
       const parsedMobileNumber = this.parseMobileNumber(mobileNo)
 
-      const PhonenumberRepository = transaction.manager.getRepository(Phonenumber)
-      const phonenumber: Phonenumber = await PhonenumberRepository.findOneOrFail({
-        where: { ...parsedMobileNumber },
-      })
-      console.log(`[priorityService::findGrantsByMobileNo] smsNumber found`)
-
       const identityRepository = transaction.manager.getRepository(Identity)
-      const identity: Identity = await identityRepository.findOneOrFail({ where: { smsNumber: phonenumber } })
-      console.log(`[priorityService::findGrantsByMobileNo] identity found`)
+      const identities: Identity[] = await identityRepository.find({
+        relations: ['smsNumber'],
+      })
+      // FIXME: This is should be handled by a Join through the ORM
+      const identity: Identity = identities.filter((id: Identity) => {
+        return (
+          id.smsNumber.number === parsedMobileNumber.number &&
+          id.smsNumber.countryCode === parsedMobileNumber.countryCode
+        )
+      })[0]
+
+      if (!identity) {
+        throw new FancyError('Identity not found', 404, 'EntityNotFound')
+      }
+      console.log(`[priorityService::findGrantsByMobileNo] identity found: ${JSON.stringify(identity)}`)
 
       const priorityRepository = transaction.manager.getRepository(Priority)
       const priority: Priority = await priorityRepository.findOne({ where: { grant: priorityGrant } })
