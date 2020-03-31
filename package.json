@@ -25,7 +25,8 @@
     "docker:up": "docker-compose up --build --force-recreate",
     "docker:down": "docker-compose down --remove-orphans -v",
     "docker:build": "docker build -t crisis:0.0.1 .",
-    "docker:run": "docker run -d -p 3000:3000 crisis:0.0.1"
+    "docker:run": "docker run -d -p 3000:3000 crisis:0.0.1",
+    "docker:deploy": "docker build . -t crisis && docker tag crisis capcovacr.azurecr.io/crisis && docker push capcovacr.azurecr.io/crisis"
   },
   "dependencies": {
     "axios": "^0.19.2",
@@ -37,6 +38,7 @@
     "express-jwt": "^5.3.1",
     "express-openapi-validator": "^3.10.0",
     "helmet": "^3.21.3",
+    "libphonenumber-js": "^1.7.49",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "morgan": "~1.9.1",

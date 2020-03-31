@@ -7,7 +7,7 @@ var GrantEnum;
 var ErrorEnum;
 (function (ErrorEnum) {
     ErrorEnum["PRIORITY_GRANT_NOT_FOUND"] = "404 - Priority Grant Not Found";
-    ErrorEnum["IDENTITY_NOT_FOUND"] = "404 - Identity Not Found";
+    ErrorEnum["ENTITY_NOT_FOUND"] = "404 - Entity Not Found";
     ErrorEnum["UNKNOWN_ERROR"] = "500 - Unknown Server Error";
 })(ErrorEnum = exports.ErrorEnum || (exports.ErrorEnum = {}));
 //# sourceMappingURL=enums.js.map

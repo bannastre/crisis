@@ -28,7 +28,7 @@ class Identitypriority1585495095938 {
             const identity = yield identityRepository.findOneOrFail();
             const priority = yield priorityRepository.findOneOrFail();
             const identitypriorityEntity = identitypriorityRepository.create({
-                identityId: identity.id,
+                identity,
                 priority,
             });
             yield identitypriorityRepository.save(identitypriorityEntity);

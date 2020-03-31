@@ -7,33 +7,46 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  OneToMany,
+  ManyToOne,
 } from 'typeorm'
 import { Address } from './address'
+import { Phonenumber } from './phoneNumber'
+import { Identitypriority } from './identitypriority'
 
 export interface IIdentity {
   id?: string
-  smsNumber: string
-  telNumber: string
-  firstName: string
-  lastName: string
-  email: string
-  dob: string
+  smsNumber: Phonenumber
+  telNumber?: Phonenumber
+  firstName?: string
+  lastName?: string
+  email?: string
+  dob?: string
   address?: Address
+  identitypriorities?: Identitypriority[]
   createdAt?: string
   updatedAt?: string
 }
 
 @Entity()
-export class Identity {
+export class Identity implements IIdentity {
   @PrimaryGeneratedColumn('uuid')
   public id: string
 
   @Index({ unique: true })
-  @Column({ nullable: false })
-  public smsNumber: string
+  @OneToOne(
+    type => Phonenumber,
+    phonenumber => phonenumber.id
+  )
+  @JoinColumn()
+  public smsNumber: Phonenumber
 
-  @Column({ nullable: true })
-  public telNumber: string
+  @ManyToOne(
+    type => Phonenumber,
+    phonenumber => phonenumber.identities,
+    { onDelete: 'CASCADE' }
+  )
+  public telNumber: Phonenumber
 
   @Column()
   public firstName: string
@@ -47,9 +60,18 @@ export class Identity {
   @Column()
   public dob: string
 
-  @OneToOne(type => Address)
-  @JoinColumn()
+  @ManyToOne(
+    type => Address,
+    address => address.identities,
+    { onDelete: 'CASCADE' }
+  )
   public address: Address
+
+  @OneToMany(
+    type => Identitypriority,
+    identitypriority => identitypriority.identity
+  )
+  public identitypriorities: Identitypriority[]
 
   @CreateDateColumn()
   public createdAt: string

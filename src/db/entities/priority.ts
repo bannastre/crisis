@@ -10,7 +10,7 @@ export interface IPriority {
 }
 
 @Entity()
-export class Priority {
+export class Priority implements IPriority {
   @PrimaryGeneratedColumn('uuid')
   public id: string
 

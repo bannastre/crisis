@@ -1,6 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm'
 import { Identity, IIdentity } from '../entities/identity'
 import { Address, IAddress } from '../entities/address'
+import { Phonenumber, IPhonenumber } from '../entities/phoneNumber'
 import dbSchema from '../'
 import config from '../../config'
 
@@ -27,6 +28,18 @@ export class Identity1585480458646 implements MigrationInterface {
     const savedAddress = await addressRepository.save(addressEntity)
 
     /**
+     * Create a phone number
+     */
+    const phoneNumberRepository = transaction.manager.getRepository(Phonenumber)
+
+    const phoneNumberEntity: IPhonenumber = phoneNumberRepository.create({
+      countryCode: '44',
+      number: '7843627131',
+    })
+
+    const savedPhoneNumber = await phoneNumberRepository.save(phoneNumberEntity)
+
+    /**
      * Create an Identity
      */
     const identityRepository = transaction.manager.getRepository(Identity)
@@ -37,8 +50,8 @@ export class Identity1585480458646 implements MigrationInterface {
         firstName: 'Chris',
         lastName: 'Harrop',
         email: 'chris@jigsaw.xyz',
-        smsNumber: '+447843627130',
-        telNumber: '+447843627130',
+        smsNumber: savedPhoneNumber,
+        telNumber: savedPhoneNumber,
         dob: '28-10-1983',
         address: savedAddress,
       },

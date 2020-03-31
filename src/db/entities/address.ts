@@ -1,7 +1,17 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+  ManyToMany,
+  OneToMany,
+} from 'typeorm'
+import { Identity } from './identity'
 
 export interface IAddress {
   id?: string
+  identities?: Identity[]
   addressLine1: string
   addressLine2: string
   addressLine3: string
@@ -14,9 +24,15 @@ export interface IAddress {
 }
 
 @Entity()
-export class Address {
+export class Address implements IAddress {
   @PrimaryGeneratedColumn('uuid')
   public id: string
+
+  @OneToMany(
+    type => Identity,
+    identity => identity.address
+  )
+  public identities: Identity[]
 
   @Column()
   public addressLine1: string

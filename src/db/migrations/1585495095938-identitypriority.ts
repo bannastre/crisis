@@ -18,7 +18,7 @@ export class Identitypriority1585495095938 implements MigrationInterface {
     const priority: IPriority = await priorityRepository.findOneOrFail()
 
     const identitypriorityEntity: IIdentitypriority = identitypriorityRepository.create({
-      identityId: identity.id,
+      identity,
       priority,
     })
 

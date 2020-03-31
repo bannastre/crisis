@@ -9,6 +9,7 @@ export default class PriorityController {
   public get = async (req: IScopedRequest, res: Response, next: NextFunction) => {
     try {
       const { priorityGrant, mobileNumber } = req.query
+
       console.log(
         `[priorityController::get] Searching for ${JSON.stringify(priorityGrant)} linked to smsNumber ${JSON.stringify(
           mobileNumber

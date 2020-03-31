@@ -11,54 +11,34 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
 const identity_1 = require("./identity");
-let Address = class Address {
+let Phonenumber = class Phonenumber {
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn('uuid'),
     __metadata("design:type", String)
-], Address.prototype, "id", void 0);
+], Phonenumber.prototype, "id", void 0);
 __decorate([
     typeorm_1.OneToMany(type => identity_1.Identity, identity => identity.address),
     __metadata("design:type", Array)
-], Address.prototype, "identities", void 0);
+], Phonenumber.prototype, "identities", void 0);
 __decorate([
-    typeorm_1.Column(),
-    __metadata("design:type", String)
-], Address.prototype, "addressLine1", void 0);
+    typeorm_1.Column('varchar', { nullable: false, length: 3 }),
+    __metadata("design:type", Object)
+], Phonenumber.prototype, "countryCode", void 0);
 __decorate([
-    typeorm_1.Column(),
-    __metadata("design:type", String)
-], Address.prototype, "addressLine2", void 0);
-__decorate([
-    typeorm_1.Column(),
-    __metadata("design:type", String)
-], Address.prototype, "addressLine3", void 0);
-__decorate([
-    typeorm_1.Column(),
-    __metadata("design:type", String)
-], Address.prototype, "city", void 0);
-__decorate([
-    typeorm_1.Column(),
-    __metadata("design:type", String)
-], Address.prototype, "region", void 0);
-__decorate([
-    typeorm_1.Column(),
-    __metadata("design:type", String)
-], Address.prototype, "country", void 0);
-__decorate([
-    typeorm_1.Column(),
-    __metadata("design:type", String)
-], Address.prototype, "postcode", void 0);
+    typeorm_1.Column('varchar', { nullable: false, length: 10 }),
+    __metadata("design:type", Object)
+], Phonenumber.prototype, "number", void 0);
 __decorate([
     typeorm_1.CreateDateColumn(),
     __metadata("design:type", String)
-], Address.prototype, "createdAt", void 0);
+], Phonenumber.prototype, "createdAt", void 0);
 __decorate([
     typeorm_1.UpdateDateColumn(),
     __metadata("design:type", String)
-], Address.prototype, "updatedAt", void 0);
-Address = __decorate([
+], Phonenumber.prototype, "updatedAt", void 0);
+Phonenumber = __decorate([
     typeorm_1.Entity()
-], Address);
-exports.Address = Address;
-//# sourceMappingURL=address.js.map
+], Phonenumber);
+exports.Phonenumber = Phonenumber;
+//# sourceMappingURL=phoneNumber.js.map

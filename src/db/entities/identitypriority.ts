@@ -1,21 +1,26 @@
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { Priority } from './priority'
+import { Identity } from './identity'
 
 export interface IIdentitypriority {
   id?: string
-  identityId: string
+  identity: Identity
   priority: Priority
   createdAt?: string
   updatedAt?: string
 }
 
 @Entity()
-export class Identitypriority {
+export class Identitypriority implements IIdentitypriority {
   @PrimaryGeneratedColumn('uuid')
   public id: string
 
-  @Column({ unique: true })
-  public identityId: string
+  @ManyToOne(
+    type => Identity,
+    identity => identity.id,
+    { onDelete: 'CASCADE' }
+  )
+  public identity: Identity
 
   @ManyToOne(
     type => Priority,

@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const identity_1 = require("../entities/identity");
 const address_1 = require("../entities/address");
+const phoneNumber_1 = require("../entities/phoneNumber");
 const __1 = __importDefault(require("../"));
 const config_1 = __importDefault(require("../../config"));
 class Identity1585480458646 {
@@ -36,6 +37,15 @@ class Identity1585480458646 {
             });
             const savedAddress = yield addressRepository.save(addressEntity);
             /**
+             * Create a phone number
+             */
+            const phoneNumberRepository = transaction.manager.getRepository(phoneNumber_1.Phonenumber);
+            const phoneNumberEntity = phoneNumberRepository.create({
+                countryCode: '44',
+                number: '7843627131',
+            });
+            const savedPhoneNumber = yield phoneNumberRepository.save(phoneNumberEntity);
+            /**
              * Create an Identity
              */
             const identityRepository = transaction.manager.getRepository(identity_1.Identity);
@@ -45,8 +55,8 @@ class Identity1585480458646 {
                     firstName: 'Chris',
                     lastName: 'Harrop',
                     email: 'chris@jigsaw.xyz',
-                    smsNumber: '+447843627130',
-                    telNumber: '+447843627130',
+                    smsNumber: savedPhoneNumber,
+                    telNumber: savedPhoneNumber,
                     dob: '28-10-1983',
                     address: savedAddress,
                 },
