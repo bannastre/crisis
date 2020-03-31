@@ -17,6 +17,7 @@ const identity_1 = require("../entities/identity");
 const priority_1 = require("../entities/priority");
 const identitypriority_1 = require("../entities/identitypriority");
 const config_1 = __importDefault(require("../../config"));
+const types_1 = require("../../types");
 class Identitypriority1585495095938 {
     up() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -25,13 +26,63 @@ class Identitypriority1585495095938 {
             const identityRepository = transaction.manager.getRepository(identity_1.Identity);
             const priorityRepository = transaction.manager.getRepository(priority_1.Priority);
             const identitypriorityRepository = transaction.manager.getRepository(identitypriority_1.Identitypriority);
-            const identity = yield identityRepository.findOneOrFail();
-            const priority = yield priorityRepository.findOneOrFail();
-            const identitypriorityEntity = identitypriorityRepository.create({
-                identity,
-                priority,
+            const identities = yield identityRepository.find();
+            // tslint:disable: variable-name
+            // FOOD_DELIVERY
+            const food_delivery_priority = yield priorityRepository.findOne({
+                where: { grant: types_1.GrantEnum.FOOD_DELIVERY },
             });
-            yield identitypriorityRepository.save(identitypriorityEntity);
+            const food_delivery_identitypriority = identitypriorityRepository.create({
+                identity: identities[0],
+                priority: food_delivery_priority,
+            });
+            yield identitypriorityRepository.save(food_delivery_identitypriority);
+            const food_delivery_identitypriority_2 = identitypriorityRepository.create({
+                identity: identities[1],
+                priority: food_delivery_priority,
+            });
+            yield identitypriorityRepository.save(food_delivery_identitypriority_2);
+            // TRANSPORT_PUBLIC
+            const transport_public_priority = yield priorityRepository.findOne({
+                where: { grant: types_1.GrantEnum.TRANSPORT_PUBLIC },
+            });
+            const transport_public_identitypriority = identitypriorityRepository.create({
+                identity: identities[0],
+                priority: transport_public_priority,
+            });
+            yield identitypriorityRepository.save(transport_public_identitypriority);
+            const transport_public_identitypriority_2 = identitypriorityRepository.create({
+                identity: identities[1],
+                priority: transport_public_priority,
+            });
+            yield identitypriorityRepository.save(transport_public_identitypriority_2);
+            // SCHOOLING_ACCESS
+            const schooling_access_priority = yield priorityRepository.findOne({
+                where: { grant: types_1.GrantEnum.SCHOOLING_ACCESS },
+            });
+            const schooling_access_identitypriority = identitypriorityRepository.create({
+                identity: identities[0],
+                priority: schooling_access_priority,
+            });
+            yield identitypriorityRepository.save(schooling_access_identitypriority);
+            // HEALTHCARE_MEDECINE_DISPENSARY
+            const healthcare_medecine_priority = yield priorityRepository.findOne({
+                where: { grant: types_1.GrantEnum.HEALTHCARE_MEDECINE_DISPENSARY },
+            });
+            const healthcare_medecine_identitypriority = identitypriorityRepository.create({
+                identity: identities[0],
+                priority: healthcare_medecine_priority,
+            });
+            yield identitypriorityRepository.save(healthcare_medecine_identitypriority);
+            // HEALTHCARE_CARE_VISITORS
+            const healthccare_care_priority = yield priorityRepository.findOne({
+                where: { grant: types_1.GrantEnum.HEALTHCARE_CARE_VISITORS },
+            });
+            const healthccare_care_identitypriority = identitypriorityRepository.create({
+                identity: identities[0],
+                priority: healthccare_care_priority,
+            });
+            yield identitypriorityRepository.save(healthccare_care_identitypriority);
             yield transaction.commitTransaction();
             yield __1.default.closeDatabaseConnections();
         });

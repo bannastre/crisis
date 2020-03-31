@@ -1,5 +1,11 @@
 export enum GrantEnum {
   FOOD_DELIVERY = 'food|delivery',
+  TRANSPORT_PUBLIC = 'transport|public',
+  TRANSPORT_PRIVATE = 'transport|public',
+  HEALTHCARE_MEDECINE_DISPENSARY = 'healthcare|medecine|dispensary',
+  HEALTHCARE_CARE_VISITORS = 'healthcare|care|visitors',
+  SCHOOLING_MEALS_AFTERSCHOOL = 'schooling|meals|afterschool',
+  SCHOOLING_ACCESS = 'schooling|access',
 }
 
 export enum ErrorEnum {
