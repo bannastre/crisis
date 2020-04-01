@@ -2,7 +2,7 @@ export enum GrantEnum {
   FOOD_DELIVERY = 'food|delivery',
   TRANSPORT_PUBLIC = 'transport|public',
   TRANSPORT_PRIVATE = 'transport|private',
-  HEALTHCARE_MEDECINE_DISPENSARY = 'healthcare|medecine|dispensary',
+  HEALTHCARE_MEDICINE_DISPENSARY = 'healthcare|medicine|dispensary',
   HEALTHCARE_CARE_VISITORS = 'healthcare|care|visitors',
   SCHOOLING_MEALS_AFTERSCHOOL = 'schooling|meals|afterschool',
   SCHOOLING_ACCESS = 'schooling|access',
@@ -14,9 +14,6 @@ export enum ErrorEnum {
   UNKNOWN_ERROR = '500 - Unknown Server Error',
 }
 
-/**
- * Not currently used
- */
 export enum IdentityTypeEnum {
   SHIELDED_PATIENT = 'shielded patient',
   KEY_WORKER = 'Key Worker',
