@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
 const priority_1 = require("./priority");
+const identity_1 = require("./identity");
 let Identitypriority = class Identitypriority {
 };
 __decorate([
@@ -18,9 +19,9 @@ __decorate([
     __metadata("design:type", String)
 ], Identitypriority.prototype, "id", void 0);
 __decorate([
-    typeorm_1.Column({ unique: true }),
-    __metadata("design:type", String)
-], Identitypriority.prototype, "identityId", void 0);
+    typeorm_1.ManyToOne(type => identity_1.Identity, identity => identity.id, { onDelete: 'CASCADE' }),
+    __metadata("design:type", identity_1.Identity)
+], Identitypriority.prototype, "identity", void 0);
 __decorate([
     typeorm_1.ManyToOne(type => priority_1.Priority, priority => priority.id),
     __metadata("design:type", priority_1.Priority)

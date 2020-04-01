@@ -6,9 +6,9 @@ import dbSchema from '../'
 import config from '../../config'
 
 /**
- * This creates a key worker identity
+ * This creates a vulnerable person identity
  */
-export class Identity1585480458646 implements MigrationInterface {
+export class Identity1585694690202 implements MigrationInterface {
   public async up(): Promise<any> {
     await dbSchema.initialiseDatabaseConnections()
     const transaction = await dbSchema.getTransaction()
@@ -19,13 +19,13 @@ export class Identity1585480458646 implements MigrationInterface {
     const addressRepository = transaction.manager.getRepository(Address)
 
     const addressEntity: IAddress = addressRepository.create({
-      addressLine1: '1 Playfair Mansions',
-      addressLine2: `Queen's Club Gardens`,
+      addressLine1: '136b Barking Rd',
+      addressLine2: '',
       addressLine3: '',
-      region: 'Fulham',
+      region: 'East Ham',
       city: 'London',
       country: 'UK',
-      postcode: 'W14 9TR',
+      postcode: 'E6 3BD',
     })
 
     const savedAddress = await addressRepository.save(addressEntity)
@@ -37,10 +37,16 @@ export class Identity1585480458646 implements MigrationInterface {
 
     const phoneNumberEntity: IPhonenumber = phoneNumberRepository.create({
       countryCode: '44',
-      number: '7843627131',
+      number: '7909570705',
+    })
+
+    const phoneNumberEntity2: IPhonenumber = phoneNumberRepository.create({
+      countryCode: '44',
+      number: '7909570705',
     })
 
     const savedPhoneNumber = await phoneNumberRepository.save(phoneNumberEntity)
+    const savedPhoneNumber2 = await phoneNumberRepository.save(phoneNumberEntity2)
 
     /**
      * Create an Identity
@@ -50,12 +56,12 @@ export class Identity1585480458646 implements MigrationInterface {
     /* tslint:disable object-literal-sort-keys */
     const identities: IIdentity[] = [
       {
-        firstName: 'Kit',
-        lastName: 'Harper',
-        email: 'chris@jigsaw.xyz',
+        firstName: 'John',
+        lastName: 'Barton',
+        email: '',
         smsNumber: savedPhoneNumber,
-        telNumber: savedPhoneNumber,
-        dob: '26-10-1983',
+        telNumber: savedPhoneNumber2,
+        dob: '28-10-1947',
         address: savedAddress,
       },
     ]

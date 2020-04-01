@@ -10,11 +10,11 @@ export interface IPriority {
 }
 
 @Entity()
-export class Priority {
+export class Priority implements IPriority {
   @PrimaryGeneratedColumn('uuid')
   public id: string
 
-  @Column()
+  @Column({ unique: true })
   public grant: GrantEnum
 
   @Column()

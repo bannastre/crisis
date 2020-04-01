@@ -18,9 +18,9 @@ const phoneNumber_1 = require("../entities/phoneNumber");
 const __1 = __importDefault(require("../"));
 const config_1 = __importDefault(require("../../config"));
 /**
- * This creates a key worker identity
+ * This creates a vulnerable person identity
  */
-class Identity1585480458646 {
+class Identity1585694690202 {
     up() {
         return __awaiter(this, void 0, void 0, function* () {
             yield __1.default.initialiseDatabaseConnections();
@@ -30,13 +30,13 @@ class Identity1585480458646 {
              */
             const addressRepository = transaction.manager.getRepository(address_1.Address);
             const addressEntity = addressRepository.create({
-                addressLine1: '1 Playfair Mansions',
-                addressLine2: `Queen's Club Gardens`,
+                addressLine1: '136b Barking Rd',
+                addressLine2: '',
                 addressLine3: '',
-                region: 'Fulham',
+                region: 'East Ham',
                 city: 'London',
                 country: 'UK',
-                postcode: 'W14 9TR',
+                postcode: 'E6 3BD',
             });
             const savedAddress = yield addressRepository.save(addressEntity);
             /**
@@ -45,9 +45,14 @@ class Identity1585480458646 {
             const phoneNumberRepository = transaction.manager.getRepository(phoneNumber_1.Phonenumber);
             const phoneNumberEntity = phoneNumberRepository.create({
                 countryCode: '44',
-                number: '7843627131',
+                number: '7909570705',
+            });
+            const phoneNumberEntity2 = phoneNumberRepository.create({
+                countryCode: '44',
+                number: '7909570705',
             });
             const savedPhoneNumber = yield phoneNumberRepository.save(phoneNumberEntity);
+            const savedPhoneNumber2 = yield phoneNumberRepository.save(phoneNumberEntity2);
             /**
              * Create an Identity
              */
@@ -55,12 +60,12 @@ class Identity1585480458646 {
             /* tslint:disable object-literal-sort-keys */
             const identities = [
                 {
-                    firstName: 'Kit',
-                    lastName: 'Harper',
-                    email: 'chris@jigsaw.xyz',
+                    firstName: 'John',
+                    lastName: 'Barton',
+                    email: '',
                     smsNumber: savedPhoneNumber,
-                    telNumber: savedPhoneNumber,
-                    dob: '26-10-1983',
+                    telNumber: savedPhoneNumber2,
+                    dob: '28-10-1947',
                     address: savedAddress,
                 },
             ];
@@ -79,5 +84,5 @@ class Identity1585480458646 {
         });
     }
 }
-exports.Identity1585480458646 = Identity1585480458646;
-//# sourceMappingURL=1585480458646-identity.js.map
+exports.Identity1585694690202 = Identity1585694690202;
+//# sourceMappingURL=1585694690202-identity.js.map

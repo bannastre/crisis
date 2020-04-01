@@ -11,6 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
 const address_1 = require("./address");
+const phoneNumber_1 = require("./phoneNumber");
+const identitypriority_1 = require("./identitypriority");
 let Identity = class Identity {
 };
 __decorate([
@@ -19,12 +21,13 @@ __decorate([
 ], Identity.prototype, "id", void 0);
 __decorate([
     typeorm_1.Index({ unique: true }),
-    typeorm_1.Column({ nullable: false }),
-    __metadata("design:type", String)
+    typeorm_1.JoinColumn(),
+    typeorm_1.OneToOne(type => phoneNumber_1.Phonenumber, phonenumber => phonenumber.id),
+    __metadata("design:type", phoneNumber_1.Phonenumber)
 ], Identity.prototype, "smsNumber", void 0);
 __decorate([
-    typeorm_1.Column({ nullable: true }),
-    __metadata("design:type", String)
+    typeorm_1.ManyToOne(type => phoneNumber_1.Phonenumber, phonenumber => phonenumber.identities, { onDelete: 'CASCADE' }),
+    __metadata("design:type", phoneNumber_1.Phonenumber)
 ], Identity.prototype, "telNumber", void 0);
 __decorate([
     typeorm_1.Column(),
@@ -43,10 +46,13 @@ __decorate([
     __metadata("design:type", String)
 ], Identity.prototype, "dob", void 0);
 __decorate([
-    typeorm_1.OneToOne(type => address_1.Address),
-    typeorm_1.JoinColumn(),
+    typeorm_1.ManyToOne(type => address_1.Address, address => address.identities, { onDelete: 'CASCADE' }),
     __metadata("design:type", address_1.Address)
 ], Identity.prototype, "address", void 0);
+__decorate([
+    typeorm_1.OneToMany(type => identitypriority_1.Identitypriority, identitypriority => identitypriority.identity),
+    __metadata("design:type", Array)
+], Identity.prototype, "identitypriorities", void 0);
 __decorate([
     typeorm_1.CreateDateColumn(),
     __metadata("design:type", String)

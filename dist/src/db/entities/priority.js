@@ -18,7 +18,7 @@ __decorate([
     __metadata("design:type", String)
 ], Priority.prototype, "id", void 0);
 __decorate([
-    typeorm_1.Column(),
+    typeorm_1.Column({ unique: true }),
     __metadata("design:type", String)
 ], Priority.prototype, "grant", void 0);
 __decorate([
