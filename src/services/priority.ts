@@ -21,8 +21,8 @@ export default class PriorityService {
   }
 
   public async findGrantByMobileNo(priorityGrant: GrantEnum, mobileNo: string): Promise<IGrantResponse> {
-    console.log(`[priorityService::findGrantsByMobileNo] Transaction Opening`)
     const transaction = await dbSchema.getTransaction()
+
     try {
       console.log(`[priorityService::findGrantsByMobileNo] Issuing request for priority by identity.smsNumber`)
       const parsedMobileNumber = this.parseMobileNumber(mobileNo)
@@ -48,17 +48,16 @@ export default class PriorityService {
 
       const priority: IdentityTypeEnum = identity ? identity.type : IdentityTypeEnum.STANDARD
       const valid: boolean = !!identity
-
+      transaction.commitTransaction()
       return { priority, valid }
     } catch (err) {
       console.error('[priorityService::findGrantsByMobileNo::Error] ' + err.message)
-
-      console.log('PriorityService -> err instanceof FancyError', err instanceof FancyError)
       if (err instanceof FancyError) {
         throw err
       }
       throw new FancyError(ErrorEnum.UNKNOWN_ERROR)
     } finally {
+      console.log(`[priorityService::findGrantsByMobileNo::Finally] Closing connection`)
       await transaction.release()
       console.log(`[priorityService::findGrantsByMobileNo::Finally] Transaction released: ${transaction.isReleased}`)
     }

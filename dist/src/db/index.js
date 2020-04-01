@@ -15,12 +15,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const db_1 = __importDefault(require("./db"));
 function closeDatabaseConnections() {
     return __awaiter(this, void 0, void 0, function* () {
-        return db_1.default.close();
+        return yield db_1.default.close();
+    });
+}
+function isConnected() {
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield db_1.default.isConnected();
     });
 }
 function initialiseDatabaseConnections() {
     return __awaiter(this, void 0, void 0, function* () {
-        return db_1.default.setup();
+        return yield db_1.default.setup();
     });
 }
 // NOTE: Loosening restrictions on SERIALIZABLE transactions to
@@ -28,8 +33,11 @@ function initialiseDatabaseConnections() {
 function getTransaction(isolationLevel = 'READ COMMITTED') {
     return __awaiter(this, void 0, void 0, function* () {
         console.info('[DbSchema::getTransaction]');
-        const connection = db_1.default.getConnection();
-        const queryRunner = yield connection.createQueryRunner();
+        const connection = db_1.default.getConnection;
+        const queryRunner = connection.createQueryRunner();
+        if (!connection.isConnected) {
+            queryRunner.connect();
+        }
         yield queryRunner.startTransaction(isolationLevel);
         if (isolationLevel === 'SERIALIZABLE') {
             queryRunner.query('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE READ ONLY DEFERRABLE');
@@ -39,7 +47,7 @@ function getTransaction(isolationLevel = 'READ COMMITTED') {
 }
 function getQueryRunner() {
     return __awaiter(this, void 0, void 0, function* () {
-        const connection = db_1.default.getConnection();
+        const connection = db_1.default.getConnection;
         console.info('DbSchema::getQueryRunner');
         const queryRunner = yield connection.createQueryRunner();
         return queryRunner;
@@ -56,6 +64,7 @@ const dbSchema = {
     getQueryRunner,
     getTransaction,
     initialiseDatabaseConnections,
+    isConnected,
 };
 exports.default = dbSchema;
 //# sourceMappingURL=index.js.map

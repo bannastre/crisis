@@ -34,7 +34,6 @@ class PriorityService {
     }
     findGrantByMobileNo(priorityGrant, mobileNo) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(`[priorityService::findGrantsByMobileNo] Transaction Opening`);
             const transaction = yield db_1.default.getTransaction();
             try {
                 console.log(`[priorityService::findGrantsByMobileNo] Issuing request for priority by identity.smsNumber`);
@@ -58,17 +57,18 @@ class PriorityService {
                 console.log(`[priorityService::findGrantsByMobileNo] Priority Grant checked`);
                 const priority = identity ? identity.type : enums_1.IdentityTypeEnum.STANDARD;
                 const valid = !!identity;
+                transaction.commitTransaction();
                 return { priority, valid };
             }
             catch (err) {
                 console.error('[priorityService::findGrantsByMobileNo::Error] ' + err.message);
-                console.log('PriorityService -> err instanceof FancyError', err instanceof helpers_1.FancyError);
                 if (err instanceof helpers_1.FancyError) {
                     throw err;
                 }
                 throw new helpers_1.FancyError(types_1.ErrorEnum.UNKNOWN_ERROR);
             }
             finally {
+                console.log(`[priorityService::findGrantsByMobileNo::Finally] Closing connection`);
                 yield transaction.release();
                 console.log(`[priorityService::findGrantsByMobileNo::Finally] Transaction released: ${transaction.isReleased}`);
             }

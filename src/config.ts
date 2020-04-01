@@ -4,7 +4,7 @@ import { ConnectionOptions } from 'typeorm'
 dotenv.config()
 
 const mssqlConnection: ConnectionOptions = {
-  name: 'crisis_base',
+  name: 'default',
   type: 'mssql',
   host: process.env.DB_HOST || 'localhost',
   username: process.env.DB_USER || 'sa',

@@ -17,27 +17,32 @@ const config_1 = __importDefault(require("../config"));
 class Db {
     constructor(connectionOptions) {
         this.connectionOptions = connectionOptions;
+        this.connectionName = 'default';
     }
-    getConnection() {
-        if (!this.connection) {
+    get getConnection() {
+        if (!Db.connection) {
             throw new Error('Database connections not initialised');
         }
-        // @ts-ignore
-        this.connection.buildMetadatas();
-        return this.connection;
+        return Db.connection;
     }
     setup() {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.initTypeOrm();
         });
     }
+    isConnected() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return Db.connection.isConnected;
+        });
+    }
     close() {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!this.connection) {
+            if (!Db.connection) {
                 throw new Error('Database connections not initialised');
             }
             try {
-                yield this.connection.close();
+                console.info(`[db::close dbConnection] - Closing`);
+                yield Db.connection.close();
             }
             catch (e) {
                 throw e;
@@ -48,7 +53,7 @@ class Db {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const connections = yield typeorm_1.createConnections([this.connectionOptions]);
-                this.connection = typeorm_1.getConnection('crisis_base');
+                Db.connection = typeorm_1.getConnection(this.connectionName);
                 return connections;
             }
             catch (e) {

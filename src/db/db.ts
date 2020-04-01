@@ -2,29 +2,33 @@ import { Connection, ConnectionOptions, createConnections, getConnection } from 
 import config from '../config'
 
 export class Db {
-  protected connection: Connection
+  protected static connection: Connection
+  private connectionName = 'default'
 
   constructor(protected connectionOptions: ConnectionOptions | undefined) {}
 
-  public getConnection(): Connection {
-    if (!this.connection) {
+  get getConnection(): Connection {
+    if (!Db.connection) {
       throw new Error('Database connections not initialised')
     }
-    // @ts-ignore
-    this.connection.buildMetadatas()
-    return this.connection
+    return Db.connection
   }
 
   public async setup(): Promise<Connection[]> {
     return await this.initTypeOrm()
   }
 
+  public async isConnected(): Promise<boolean> {
+    return Db.connection.isConnected
+  }
+
   public async close(): Promise<void> {
-    if (!this.connection) {
+    if (!Db.connection) {
       throw new Error('Database connections not initialised')
     }
     try {
-      await this.connection.close()
+      console.info(`[db::close dbConnection] - Closing`)
+      await Db.connection.close()
     } catch (e) {
       throw e
     }
@@ -33,7 +37,7 @@ export class Db {
   private async initTypeOrm(): Promise<Connection[]> {
     try {
       const connections = await createConnections([this.connectionOptions])
-      this.connection = getConnection('crisis_base')
+      Db.connection = getConnection(this.connectionName)
       return connections
     } catch (e) {
       throw e
