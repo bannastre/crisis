@@ -17,6 +17,7 @@ const types_1 = require("../types");
 const db_1 = __importDefault(require("../db"));
 const identity_1 = require("../db/entities/identity");
 const helpers_1 = require("../helpers");
+const enums_1 = require("../types/enums");
 class PriorityService {
     parseMobileNumber(phoneNumber) {
         try {
@@ -54,8 +55,10 @@ class PriorityService {
                     grant: priorityGrant,
                 })
                     .getOne();
-                console.log(`[priorityService::findGrantsByMobileNo] Priority Grant checked against identity.smsnumber`);
-                return { priority: priorityGrant, valid: !!identity };
+                console.log(`[priorityService::findGrantsByMobileNo] Priority Grant checked against identity.smsnumber, ${JSON.stringify(identity)}`);
+                const priority = identity ? identity.type : enums_1.IdentityTypeEnum.STANDARD;
+                const valid = !!identity;
+                return { priority, valid };
             }
             catch (err) {
                 console.error('[priorityService::findGrantsByMobileNo::Error] ' + err.message);

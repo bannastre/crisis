@@ -46,11 +46,11 @@ class Identity1585694690202 {
             const phoneNumberRepository = transaction.manager.getRepository(phoneNumber_1.Phonenumber);
             const phoneNumberEntity = phoneNumberRepository.create({
                 countryCode: '44',
-                number: '7909570705',
+                number: '7911123456 ',
             });
             const phoneNumberEntity2 = phoneNumberRepository.create({
                 countryCode: '44',
-                number: '7909570705',
+                number: '1214960674 ',
             });
             const savedPhoneNumber = yield phoneNumberRepository.save(phoneNumberEntity);
             const savedPhoneNumber2 = yield phoneNumberRepository.save(phoneNumberEntity2);
@@ -83,6 +83,7 @@ class Identity1585694690202 {
         return __awaiter(this, void 0, void 0, function* () {
             yield queryRunner.query(`DELETE FROM ${config_1.default.connection.database}.dbo.[identity]`);
             yield queryRunner.query(`DELETE FROM ${config_1.default.connection.database}.dbo.[address]`);
+            yield queryRunner.query(`DELETE FROM ${config_1.default.connection.database}.dbo.[phonenumber]`);
         });
     }
 }

@@ -2,6 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var GrantEnum;
 (function (GrantEnum) {
+    GrantEnum["SHIELDED_PATIENT"] = "shielded patient";
+    GrantEnum["KEY_WORKER"] = "Key Worker";
     GrantEnum["FOOD_DELIVERY"] = "food|delivery";
     GrantEnum["TRANSPORT_PUBLIC"] = "transport|public";
     GrantEnum["TRANSPORT_PRIVATE"] = "transport|private";
@@ -20,6 +22,8 @@ var ErrorEnum;
 var IdentityTypeEnum;
 (function (IdentityTypeEnum) {
     IdentityTypeEnum["SHIELDED_PATIENT"] = "shielded patient";
-    IdentityTypeEnum["KEY_WORKER"] = "Key Worker";
+    IdentityTypeEnum["KEY_WORKER"] = "key worker";
+    IdentityTypeEnum["NONE"] = "none";
+    IdentityTypeEnum["STANDARD"] = "standard";
 })(IdentityTypeEnum = exports.IdentityTypeEnum || (exports.IdentityTypeEnum = {}));
 //# sourceMappingURL=enums.js.map

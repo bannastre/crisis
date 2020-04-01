@@ -4,6 +4,7 @@ import dbSchema from '../db'
 import { Identity } from '../db/entities/identity'
 import { IPhonenumber } from '../db/entities/phoneNumber'
 import { FancyError } from '../helpers'
+import { IdentityTypeEnum } from '../types/enums'
 
 export default class PriorityService {
   private parseMobileNumber(phoneNumber: string): IPhonenumber {
@@ -43,8 +44,16 @@ export default class PriorityService {
         })
         .getOne()
 
-      console.log(`[priorityService::findGrantsByMobileNo] Priority Grant checked against identity.smsnumber`)
-      return { priority: priorityGrant, valid: !!identity }
+      console.log(
+        `[priorityService::findGrantsByMobileNo] Priority Grant checked against identity.smsnumber, ${JSON.stringify(
+          identity
+        )}`
+      )
+
+      const priority: IdentityTypeEnum = identity ? identity.type : IdentityTypeEnum.STANDARD
+      const valid: boolean = !!identity
+
+      return { priority, valid }
     } catch (err) {
       console.error('[priorityService::findGrantsByMobileNo::Error] ' + err.message)
 

@@ -1,11 +1,11 @@
 import { Request } from 'express'
-import { GrantEnum } from './enums'
+import { GrantEnum, IdentityTypeEnum } from './enums'
 
 export interface IScopedRequest extends Request {
   user: any
 }
 
 export interface IGrantResponse {
-  priority: GrantEnum
+  priority: IdentityTypeEnum | GrantEnum
   valid: boolean
 }

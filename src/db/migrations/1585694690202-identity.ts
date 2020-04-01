@@ -38,12 +38,12 @@ export class Identity1585694690202 implements MigrationInterface {
 
     const phoneNumberEntity: IPhonenumber = phoneNumberRepository.create({
       countryCode: '44',
-      number: '7909570705',
+      number: '7911123456 ',
     })
 
     const phoneNumberEntity2: IPhonenumber = phoneNumberRepository.create({
       countryCode: '44',
-      number: '7909570705',
+      number: '1214960674 ',
     })
 
     const savedPhoneNumber = await phoneNumberRepository.save(phoneNumberEntity)
@@ -82,5 +82,6 @@ export class Identity1585694690202 implements MigrationInterface {
   public async down(queryRunner: QueryRunner): Promise<any> {
     await queryRunner.query(`DELETE FROM ${config.connection.database}.dbo.[identity]`)
     await queryRunner.query(`DELETE FROM ${config.connection.database}.dbo.[address]`)
+    await queryRunner.query(`DELETE FROM ${config.connection.database}.dbo.[phonenumber]`)
   }
 }
