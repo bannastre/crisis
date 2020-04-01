@@ -2,9 +2,7 @@ import { parsePhoneNumberFromString, CountryCallingCode, NationalNumber } from '
 import { IGrantResponse, GrantEnum, ErrorEnum } from '../types'
 import dbSchema from '../db'
 import { Identity } from '../db/entities/identity'
-import { Priority } from '../db/entities/priority'
-import { Phonenumber, IPhonenumber } from '../db/entities/phoneNumber'
-import { Identitypriority } from '../db/entities/identitypriority'
+import { IPhonenumber } from '../db/entities/phoneNumber'
 import { FancyError } from '../helpers'
 
 export default class PriorityService {
@@ -17,7 +15,7 @@ export default class PriorityService {
       return { countryCode, number: nationalNumber }
     } catch (err) {
       console.log(`[priorityService::parseMobileNumber::Error] parsing phone number`)
-      throw err
+      throw new FancyError(ErrorEnum.INVALID_PHONE_NUMBER, 400)
     }
   }
 
@@ -48,9 +46,13 @@ export default class PriorityService {
       console.log(`[priorityService::findGrantsByMobileNo] Priority Grant checked against identity.smsnumber`)
       return { priority: priorityGrant, valid: !!identity }
     } catch (err) {
-      console.log(err)
       console.error('[priorityService::findGrantsByMobileNo::Error] ' + err.message)
-      throw new FancyError(err, ErrorEnum.UNKNOWN_ERROR)
+
+      console.log('PriorityService -> err instanceof FancyError', err instanceof FancyError)
+      if (err instanceof FancyError) {
+        throw err
+      }
+      throw new FancyError(ErrorEnum.UNKNOWN_ERROR)
     } finally {
       await transaction.release()
       console.log(`[priorityService::findGrantsByMobileNo::Finally] Transaction released: ${transaction.isReleased}`)

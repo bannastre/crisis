@@ -17,6 +17,7 @@ const address_1 = require("../entities/address");
 const phoneNumber_1 = require("../entities/phoneNumber");
 const __1 = __importDefault(require("../"));
 const config_1 = __importDefault(require("../../config"));
+const enums_1 = require("../../types/enums");
 /**
  * This creates a vulnerable person identity
  */
@@ -62,6 +63,7 @@ class Identity1585694690202 {
                 {
                     firstName: 'John',
                     lastName: 'Barton',
+                    type: enums_1.IdentityTypeEnum.SHIELDED_PATIENT,
                     email: '',
                     smsNumber: savedPhoneNumber,
                     telNumber: savedPhoneNumber2,

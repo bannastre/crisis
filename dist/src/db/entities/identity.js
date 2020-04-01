@@ -13,12 +13,17 @@ const typeorm_1 = require("typeorm");
 const address_1 = require("./address");
 const phoneNumber_1 = require("./phoneNumber");
 const identitypriority_1 = require("./identitypriority");
+const enums_1 = require("../../types/enums");
 let Identity = class Identity {
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn('uuid'),
     __metadata("design:type", String)
 ], Identity.prototype, "id", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", String)
+], Identity.prototype, "type", void 0);
 __decorate([
     typeorm_1.Index({ unique: true }),
     typeorm_1.JoinColumn(),

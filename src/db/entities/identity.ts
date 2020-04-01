@@ -17,6 +17,7 @@ import { IdentityTypeEnum } from '../../types/enums'
 
 export interface IIdentity {
   id?: string
+  type: IdentityTypeEnum
   smsNumber: Phonenumber
   telNumber?: Phonenumber
   firstName?: string
@@ -33,6 +34,9 @@ export interface IIdentity {
 export class Identity implements IIdentity {
   @PrimaryGeneratedColumn('uuid')
   public id: string
+
+  @Column()
+  public type: IdentityTypeEnum
 
   @Index({ unique: true })
   @JoinColumn()

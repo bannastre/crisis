@@ -13,7 +13,7 @@ export const priorityEntities: IPriority[] = [
     description: 'Food delivery services',
   },
   {
-    grant: GrantEnum.HEALTHCARE_MEDECINE_DISPENSARY,
+    grant: GrantEnum.HEALTHCARE_MEDICINE_DISPENSARY,
     description: 'Critical prescriptions & dispensary access',
   },
   {

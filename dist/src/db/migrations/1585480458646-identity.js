@@ -17,6 +17,7 @@ const address_1 = require("../entities/address");
 const phoneNumber_1 = require("../entities/phoneNumber");
 const __1 = __importDefault(require("../"));
 const config_1 = __importDefault(require("../../config"));
+const enums_1 = require("../../types/enums");
 /**
  * This creates a key worker identity
  */
@@ -57,6 +58,7 @@ class Identity1585480458646 {
                 {
                     firstName: 'Kit',
                     lastName: 'Harper',
+                    type: enums_1.IdentityTypeEnum.KEY_WORKER,
                     email: 'chris@jigsaw.xyz',
                     smsNumber: savedPhoneNumber,
                     telNumber: savedPhoneNumber,

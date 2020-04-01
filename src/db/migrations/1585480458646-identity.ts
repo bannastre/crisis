@@ -4,6 +4,7 @@ import { Address, IAddress } from '../entities/address'
 import { Phonenumber, IPhonenumber } from '../entities/phoneNumber'
 import dbSchema from '../'
 import config from '../../config'
+import { IdentityTypeEnum } from '../../types/enums'
 
 /**
  * This creates a key worker identity
@@ -52,6 +53,7 @@ export class Identity1585480458646 implements MigrationInterface {
       {
         firstName: 'Kit',
         lastName: 'Harper',
+        type: IdentityTypeEnum.KEY_WORKER,
         email: 'chris@jigsaw.xyz',
         smsNumber: savedPhoneNumber,
         telNumber: savedPhoneNumber,

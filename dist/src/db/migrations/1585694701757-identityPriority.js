@@ -60,7 +60,7 @@ class IdentityPriority1585694701757 {
             });
             yield identitypriorityRepository.save(transport_public_identitypriority);
             /**
-             * HEALTHCARE_MEDECINE_DISPENSARY
+             * HEALTHCARE_MEDICINE_DISPENSARY
              *
              */
             const schooling_access_priority = yield priorityRepository.findOne({
@@ -84,11 +84,11 @@ class IdentityPriority1585694701757 {
             });
             yield identitypriorityRepository.save(healthccare_care_identitypriority);
             /**
-             * HEALTHCARE_MEDECINE_DISPENSARY
+             * HEALTHCARE_MEDICINE_DISPENSARY
              *
              */
             const healthccare_meds_priority = yield priorityRepository.findOne({
-                where: { grant: types_1.GrantEnum.HEALTHCARE_MEDECINE_DISPENSARY },
+                where: { grant: types_1.GrantEnum.HEALTHCARE_MEDICINE_DISPENSARY },
             });
             const healthccare_meds_identitypriority = identitypriorityRepository.create({
                 identity,

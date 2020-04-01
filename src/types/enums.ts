@@ -11,6 +11,7 @@ export enum GrantEnum {
 export enum ErrorEnum {
   PRIORITY_GRANT_NOT_FOUND = '404 - Priority Grant Not Found',
   ENTITY_NOT_FOUND = '404 - Entity Not Found',
+  INVALID_PHONE_NUMBER = '400 - Bad Request',
   UNKNOWN_ERROR = '500 - Unknown Server Error',
 }
 

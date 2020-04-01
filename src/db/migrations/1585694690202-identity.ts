@@ -4,6 +4,7 @@ import { Address, IAddress } from '../entities/address'
 import { Phonenumber, IPhonenumber } from '../entities/phoneNumber'
 import dbSchema from '../'
 import config from '../../config'
+import { IdentityTypeEnum } from '../../types/enums'
 
 /**
  * This creates a vulnerable person identity
@@ -58,6 +59,7 @@ export class Identity1585694690202 implements MigrationInterface {
       {
         firstName: 'John',
         lastName: 'Barton',
+        type: IdentityTypeEnum.SHIELDED_PATIENT,
         email: '',
         smsNumber: savedPhoneNumber,
         telNumber: savedPhoneNumber2,

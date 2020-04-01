@@ -28,7 +28,7 @@ class PriorityService {
         }
         catch (err) {
             console.log(`[priorityService::parseMobileNumber::Error] parsing phone number`);
-            throw err;
+            throw new helpers_1.FancyError(types_1.ErrorEnum.INVALID_PHONE_NUMBER, 400);
         }
     }
     findGrantByMobileNo(priorityGrant, mobileNo) {
@@ -58,9 +58,12 @@ class PriorityService {
                 return { priority: priorityGrant, valid: !!identity };
             }
             catch (err) {
-                console.log(err);
                 console.error('[priorityService::findGrantsByMobileNo::Error] ' + err.message);
-                throw new helpers_1.FancyError(err, types_1.ErrorEnum.UNKNOWN_ERROR);
+                console.log('PriorityService -> err instanceof FancyError', err instanceof helpers_1.FancyError);
+                if (err instanceof helpers_1.FancyError) {
+                    throw err;
+                }
+                throw new helpers_1.FancyError(types_1.ErrorEnum.UNKNOWN_ERROR);
             }
             finally {
                 yield transaction.release();

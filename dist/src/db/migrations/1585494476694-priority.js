@@ -25,7 +25,7 @@ exports.priorityEntities = [
         description: 'Food delivery services',
     },
     {
-        grant: types_1.GrantEnum.HEALTHCARE_MEDECINE_DISPENSARY,
+        grant: types_1.GrantEnum.HEALTHCARE_MEDICINE_DISPENSARY,
         description: 'Critical prescriptions & dispensary access',
     },
     {

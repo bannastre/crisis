@@ -52,7 +52,7 @@ export class IdentityPriority1585694701757 implements MigrationInterface {
     await identitypriorityRepository.save(transport_public_identitypriority)
 
     /**
-     * HEALTHCARE_MEDECINE_DISPENSARY
+     * HEALTHCARE_MEDICINE_DISPENSARY
      *
      */
     const schooling_access_priority: IPriority = await priorityRepository.findOne({
@@ -78,11 +78,11 @@ export class IdentityPriority1585694701757 implements MigrationInterface {
     await identitypriorityRepository.save(healthccare_care_identitypriority)
 
     /**
-     * HEALTHCARE_MEDECINE_DISPENSARY
+     * HEALTHCARE_MEDICINE_DISPENSARY
      *
      */
     const healthccare_meds_priority: IPriority = await priorityRepository.findOne({
-      where: { grant: GrantEnum.HEALTHCARE_MEDECINE_DISPENSARY },
+      where: { grant: GrantEnum.HEALTHCARE_MEDICINE_DISPENSARY },
     })
     const healthccare_meds_identitypriority: IIdentitypriority = identitypriorityRepository.create({
       identity,
