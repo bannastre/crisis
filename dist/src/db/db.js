@@ -20,10 +20,10 @@ class Db {
         this.connectionName = 'default';
     }
     get getConnection() {
-        if (!Db.connection) {
+        if (!this.connection) {
             throw new Error('Database connections not initialised');
         }
-        return Db.connection;
+        return this.connection;
     }
     setup() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -32,17 +32,17 @@ class Db {
     }
     isConnected() {
         return __awaiter(this, void 0, void 0, function* () {
-            return Db.connection.isConnected;
+            return this.connection.isConnected;
         });
     }
     close() {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!Db.connection) {
+            if (!this.connection) {
                 throw new Error('Database connections not initialised');
             }
             try {
                 console.info(`[db::close dbConnection] - Closing`);
-                yield Db.connection.close();
+                yield this.connection.close();
             }
             catch (e) {
                 throw e;
@@ -53,7 +53,7 @@ class Db {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const connections = yield typeorm_1.createConnections([this.connectionOptions]);
-                Db.connection = typeorm_1.getConnection(this.connectionName);
+                this.connection = typeorm_1.getConnection(this.connectionName);
                 return connections;
             }
             catch (e) {

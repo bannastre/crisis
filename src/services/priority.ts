@@ -21,13 +21,13 @@ export default class PriorityService {
   }
 
   public async findGrantByMobileNo(priorityGrant: GrantEnum, mobileNo: string): Promise<IGrantResponse> {
-    const transaction = await dbSchema.getTransaction()
+    const qr = await dbSchema.getQueryRunner()
 
     try {
       console.log(`[priorityService::findGrantsByMobileNo] Issuing request for priority by identity.smsNumber`)
       const parsedMobileNumber = this.parseMobileNumber(mobileNo)
 
-      const identityRepository = transaction.manager.getRepository(Identity)
+      const identityRepository = qr.manager.getRepository(Identity)
       const identity = await identityRepository
         .createQueryBuilder('identity')
         .innerJoinAndSelect('identity.smsNumber', 'smsNumber')
@@ -48,7 +48,6 @@ export default class PriorityService {
 
       const priority: IdentityTypeEnum = identity ? identity.type : IdentityTypeEnum.STANDARD
       const valid: boolean = !!identity
-      transaction.commitTransaction()
       return { priority, valid }
     } catch (err) {
       console.error('[priorityService::findGrantsByMobileNo::Error] ' + err.message)
@@ -56,10 +55,6 @@ export default class PriorityService {
         throw err
       }
       throw new FancyError(ErrorEnum.UNKNOWN_ERROR)
-    } finally {
-      console.log(`[priorityService::findGrantsByMobileNo::Finally] Closing connection`)
-      await transaction.release()
-      console.log(`[priorityService::findGrantsByMobileNo::Finally] Transaction released: ${transaction.isReleased}`)
     }
   }
 }

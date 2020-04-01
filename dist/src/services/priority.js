@@ -34,11 +34,11 @@ class PriorityService {
     }
     findGrantByMobileNo(priorityGrant, mobileNo) {
         return __awaiter(this, void 0, void 0, function* () {
-            const transaction = yield db_1.default.getTransaction();
+            const qr = yield db_1.default.getQueryRunner();
             try {
                 console.log(`[priorityService::findGrantsByMobileNo] Issuing request for priority by identity.smsNumber`);
                 const parsedMobileNumber = this.parseMobileNumber(mobileNo);
-                const identityRepository = transaction.manager.getRepository(identity_1.Identity);
+                const identityRepository = qr.manager.getRepository(identity_1.Identity);
                 const identity = yield identityRepository
                     .createQueryBuilder('identity')
                     .innerJoinAndSelect('identity.smsNumber', 'smsNumber')
@@ -57,7 +57,6 @@ class PriorityService {
                 console.log(`[priorityService::findGrantsByMobileNo] Priority Grant checked`);
                 const priority = identity ? identity.type : enums_1.IdentityTypeEnum.STANDARD;
                 const valid = !!identity;
-                transaction.commitTransaction();
                 return { priority, valid };
             }
             catch (err) {
@@ -66,11 +65,6 @@ class PriorityService {
                     throw err;
                 }
                 throw new helpers_1.FancyError(types_1.ErrorEnum.UNKNOWN_ERROR);
-            }
-            finally {
-                console.log(`[priorityService::findGrantsByMobileNo::Finally] Closing connection`);
-                yield transaction.release();
-                console.log(`[priorityService::findGrantsByMobileNo::Finally] Transaction released: ${transaction.isReleased}`);
             }
         });
     }
