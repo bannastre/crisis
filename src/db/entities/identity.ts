@@ -13,6 +13,7 @@ import {
 import { Address } from './address'
 import { Phonenumber } from './phoneNumber'
 import { Identitypriority } from './identitypriority'
+import { IdentityTypeEnum } from '../../types/enums'
 
 export interface IIdentity {
   id?: string

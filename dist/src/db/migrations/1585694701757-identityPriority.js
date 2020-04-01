@@ -83,6 +83,18 @@ class IdentityPriority1585694701757 {
                 priority: healthccare_care_priority,
             });
             yield identitypriorityRepository.save(healthccare_care_identitypriority);
+            /**
+             * HEALTHCARE_MEDECINE_DISPENSARY
+             *
+             */
+            const healthccare_meds_priority = yield priorityRepository.findOne({
+                where: { grant: types_1.GrantEnum.HEALTHCARE_MEDECINE_DISPENSARY },
+            });
+            const healthccare_meds_identitypriority = identitypriorityRepository.create({
+                identity,
+                priority: healthccare_meds_priority,
+            });
+            yield identitypriorityRepository.save(healthccare_meds_identitypriority);
             yield transaction.commitTransaction();
             yield __1.default.closeDatabaseConnections();
         });

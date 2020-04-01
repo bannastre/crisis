@@ -77,6 +77,19 @@ export class IdentityPriority1585694701757 implements MigrationInterface {
     })
     await identitypriorityRepository.save(healthccare_care_identitypriority)
 
+    /**
+     * HEALTHCARE_MEDECINE_DISPENSARY
+     *
+     */
+    const healthccare_meds_priority: IPriority = await priorityRepository.findOne({
+      where: { grant: GrantEnum.HEALTHCARE_MEDECINE_DISPENSARY },
+    })
+    const healthccare_meds_identitypriority: IIdentitypriority = identitypriorityRepository.create({
+      identity,
+      priority: healthccare_meds_priority,
+    })
+    await identitypriorityRepository.save(healthccare_meds_identitypriority)
+
     await transaction.commitTransaction()
     await dbSchema.closeDatabaseConnections()
   }

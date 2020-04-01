@@ -14,7 +14,7 @@ export class Priority implements IPriority {
   @PrimaryGeneratedColumn('uuid')
   public id: string
 
-  @Column()
+  @Column({ unique: true })
   public grant: GrantEnum
 
   @Column()
