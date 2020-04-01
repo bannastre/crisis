@@ -17,6 +17,7 @@ export async function start(): Promise<http.Server> {
 
   if (config.env !== 'test') {
     const connections = await dbSchema.initialiseDatabaseConnections()
+
     connections.map((connection: any) => {
       console.log(
         `${connection.name}: ${connection.options.username}@${connection.options.host}:${connection.options.port}

@@ -23,7 +23,7 @@ async function initialiseDatabaseConnections(): Promise<Connection[]> {
 // NOTE: READ COMMITTED due to race conditions on dirty transactions
 async function getTransaction(isolationLevel: IsolationLevel = 'READ COMMITTED'): Promise<QueryRunner> {
   console.info('[DbSchema::getTransaction]')
-  const connection: Connection = db.getConnection
+  const connection: Connection = db.getConnection()
   const queryRunner = await connection.createQueryRunner()
   await queryRunner.startTransaction(isolationLevel)
   if (isolationLevel === 'SERIALIZABLE') {
@@ -33,7 +33,7 @@ async function getTransaction(isolationLevel: IsolationLevel = 'READ COMMITTED')
 }
 
 async function getQueryRunner(): Promise<QueryRunner> {
-  const connection: Connection = db.getConnection
+  const connection: Connection = db.getConnection()
   console.info('DbSchema::getQueryRunner')
   const queryRunner = await connection.createQueryRunner()
   return queryRunner

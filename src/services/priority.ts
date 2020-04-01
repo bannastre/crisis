@@ -44,11 +44,7 @@ export default class PriorityService {
         })
         .getOne()
 
-      console.log(
-        `[priorityService::findGrantsByMobileNo] Priority Grant checked against identity.smsnumber, ${JSON.stringify(
-          identity
-        )}`
-      )
+      console.log(`[priorityService::findGrantsByMobileNo] Priority Grant checked`)
 
       const priority: IdentityTypeEnum = identity ? identity.type : IdentityTypeEnum.STANDARD
       const valid: boolean = !!identity

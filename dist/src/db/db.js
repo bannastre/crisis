@@ -18,10 +18,12 @@ class Db {
     constructor(connectionOptions) {
         this.connectionOptions = connectionOptions;
     }
-    get getConnection() {
+    getConnection() {
         if (!this.connection) {
             throw new Error('Database connections not initialised');
         }
+        // @ts-ignore
+        this.connection.buildMetadatas();
         return this.connection;
     }
     setup() {

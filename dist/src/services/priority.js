@@ -55,7 +55,7 @@ class PriorityService {
                     grant: priorityGrant,
                 })
                     .getOne();
-                console.log(`[priorityService::findGrantsByMobileNo] Priority Grant checked against identity.smsnumber, ${JSON.stringify(identity)}`);
+                console.log(`[priorityService::findGrantsByMobileNo] Priority Grant checked`);
                 const priority = identity ? identity.type : enums_1.IdentityTypeEnum.STANDARD;
                 const valid = !!identity;
                 return { priority, valid };

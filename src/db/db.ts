@@ -6,10 +6,12 @@ export class Db {
 
   constructor(protected connectionOptions: ConnectionOptions | undefined) {}
 
-  get getConnection(): Connection {
+  public getConnection(): Connection {
     if (!this.connection) {
       throw new Error('Database connections not initialised')
     }
+    // @ts-ignore
+    this.connection.buildMetadatas()
     return this.connection
   }
 

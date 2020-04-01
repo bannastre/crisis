@@ -10,10 +10,12 @@ const mssqlConnection: ConnectionOptions = {
   username: process.env.DB_USER || 'sa',
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME || 'tempdb',
-  connectionTimeout: 8000,
-  pool: { max: 50 },
-  synchronize: true,
+  synchronize: false,
   logging: false,
+  pool: { max: 50 }, // only allow n connections to the db
+  extra: {
+    connectionTimeout: 6000,
+  },
   entities: ['dist/src/db/entities/**/*.js'],
   migrations: ['dist/src/db/migrations/**/*.js'],
   subscribers: ['dist/src/db/subscribers/**/*.js'],

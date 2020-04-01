@@ -28,7 +28,7 @@ function initialiseDatabaseConnections() {
 function getTransaction(isolationLevel = 'READ COMMITTED') {
     return __awaiter(this, void 0, void 0, function* () {
         console.info('[DbSchema::getTransaction]');
-        const connection = db_1.default.getConnection;
+        const connection = db_1.default.getConnection();
         const queryRunner = yield connection.createQueryRunner();
         yield queryRunner.startTransaction(isolationLevel);
         if (isolationLevel === 'SERIALIZABLE') {
@@ -39,7 +39,7 @@ function getTransaction(isolationLevel = 'READ COMMITTED') {
 }
 function getQueryRunner() {
     return __awaiter(this, void 0, void 0, function* () {
-        const connection = db_1.default.getConnection;
+        const connection = db_1.default.getConnection();
         console.info('DbSchema::getQueryRunner');
         const queryRunner = yield connection.createQueryRunner();
         return queryRunner;
