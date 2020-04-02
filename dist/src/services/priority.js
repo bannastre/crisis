@@ -13,22 +13,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const libphonenumber_js_1 = require("libphonenumber-js");
+const phone_1 = __importDefault(require("phone"));
 const types_1 = require("../types");
 const db_1 = __importDefault(require("../db"));
 const identity_1 = require("../db/entities/identity");
 const helpers_1 = require("../helpers");
 const enums_1 = require("../types/enums");
 class PriorityService {
-    parseMobileNumber(phoneNumber) {
+    parsePhoneNumber(phoneNumber) {
         try {
-            console.log(`[priorityService::parseMobileNumber] parsing phone number`);
-            const parsedMobileNumber = libphonenumber_js_1.parsePhoneNumberFromString(phoneNumber);
-            const countryCode = parsedMobileNumber.countryCallingCode;
-            const nationalNumber = parsedMobileNumber.nationalNumber;
+            console.log(`[priorityService::parsePhoneNumber] parsing phone number`);
+            const validatedNumber = phone_1.default(phoneNumber, 'GB', true);
+            const parsedPhoneNumber = libphonenumber_js_1.parsePhoneNumberFromString(validatedNumber[0]);
+            const countryCode = parsedPhoneNumber ? parsedPhoneNumber.countryCallingCode : '+44';
+            const nationalNumber = parsedPhoneNumber ? parsedPhoneNumber.nationalNumber : phoneNumber;
             return { countryCode, number: nationalNumber };
         }
         catch (err) {
-            console.log(`[priorityService::parseMobileNumber::Error] parsing phone number`);
+            console.log(`[priorityService::parsePhoneNumber::Error] parsing phone number`);
             throw new helpers_1.FancyError(types_1.ErrorEnum.INVALID_PHONE_NUMBER, 400);
         }
     }
@@ -37,7 +39,7 @@ class PriorityService {
             const qr = yield db_1.default.getQueryRunner();
             try {
                 console.log(`[priorityService::findGrantsByMobileNo] Issuing request for priority by identity.smsNumber`);
-                const parsedMobileNumber = this.parseMobileNumber(mobileNo);
+                const parsedPhoneNumber = this.parsePhoneNumber(mobileNo);
                 const identityRepository = qr.manager.getRepository(identity_1.Identity);
                 const identity = yield identityRepository
                     .createQueryBuilder('identity')
@@ -45,10 +47,10 @@ class PriorityService {
                     .innerJoinAndSelect('identity.identitypriorities', 'identitypriority')
                     .leftJoinAndSelect('identitypriority.priority', 'priority')
                     .where('smsNumber.number = :smsNumberNumber', {
-                    smsNumberNumber: parsedMobileNumber.number,
+                    smsNumberNumber: parsedPhoneNumber.number,
                 })
                     .andWhere('smsNumber.countryCode = :smsNumberCountryCode', {
-                    smsNumberCountryCode: parsedMobileNumber.countryCode,
+                    smsNumberCountryCode: parsedPhoneNumber.countryCode,
                 })
                     .andWhere('priority.grant = :grant', {
                     grant: priorityGrant,

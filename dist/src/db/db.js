@@ -17,7 +17,7 @@ const config_1 = __importDefault(require("../config"));
 class Db {
     constructor(connectionOptions) {
         this.connectionOptions = connectionOptions;
-        this.connectionName = 'default';
+        this.connectionName = 'crisis';
     }
     get getConnection() {
         if (!this.connection) {

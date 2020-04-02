@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const mssqlConnection = {
-    name: 'default',
+    name: 'crisis',
     type: 'mssql',
     host: process.env.DB_HOST || 'localhost',
     username: process.env.DB_USER || 'sa',

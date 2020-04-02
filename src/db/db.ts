@@ -3,7 +3,7 @@ import config from '../config'
 
 export class Db {
   protected connection: Connection
-  private connectionName = 'default'
+  private connectionName = 'crisis'
 
   constructor(protected connectionOptions: ConnectionOptions | undefined) {}
 

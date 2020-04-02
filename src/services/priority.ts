@@ -1,4 +1,5 @@
 import { parsePhoneNumberFromString, CountryCallingCode, NationalNumber } from 'libphonenumber-js'
+import phone from 'phone'
 import { IGrantResponse, GrantEnum, ErrorEnum } from '../types'
 import dbSchema from '../db'
 import { Identity } from '../db/entities/identity'
@@ -7,15 +8,18 @@ import { FancyError } from '../helpers'
 import { IdentityTypeEnum } from '../types/enums'
 
 export default class PriorityService {
-  private parseMobileNumber(phoneNumber: string): IPhonenumber {
+  private parsePhoneNumber(phoneNumber: string): IPhonenumber {
     try {
-      console.log(`[priorityService::parseMobileNumber] parsing phone number`)
-      const parsedMobileNumber = parsePhoneNumberFromString(phoneNumber)
-      const countryCode: CountryCallingCode = parsedMobileNumber.countryCallingCode
-      const nationalNumber: NationalNumber = parsedMobileNumber.nationalNumber
+      console.log(`[priorityService::parsePhoneNumber] parsing phone number`)
+      const validatedNumber = phone(phoneNumber, 'GB', true)
+      const parsedPhoneNumber = parsePhoneNumberFromString(validatedNumber[0])
+
+      const countryCode: CountryCallingCode = parsedPhoneNumber ? parsedPhoneNumber.countryCallingCode : '+44'
+      const nationalNumber: NationalNumber = parsedPhoneNumber ? parsedPhoneNumber.nationalNumber : phoneNumber
+
       return { countryCode, number: nationalNumber }
     } catch (err) {
-      console.log(`[priorityService::parseMobileNumber::Error] parsing phone number`)
+      console.log(`[priorityService::parsePhoneNumber::Error] parsing phone number`)
       throw new FancyError(ErrorEnum.INVALID_PHONE_NUMBER, 400)
     }
   }
@@ -25,7 +29,7 @@ export default class PriorityService {
 
     try {
       console.log(`[priorityService::findGrantsByMobileNo] Issuing request for priority by identity.smsNumber`)
-      const parsedMobileNumber = this.parseMobileNumber(mobileNo)
+      const parsedPhoneNumber = this.parsePhoneNumber(mobileNo)
 
       const identityRepository = qr.manager.getRepository(Identity)
       const identity = await identityRepository
@@ -34,10 +38,10 @@ export default class PriorityService {
         .innerJoinAndSelect('identity.identitypriorities', 'identitypriority')
         .leftJoinAndSelect('identitypriority.priority', 'priority')
         .where('smsNumber.number = :smsNumberNumber', {
-          smsNumberNumber: parsedMobileNumber.number,
+          smsNumberNumber: parsedPhoneNumber.number,
         })
         .andWhere('smsNumber.countryCode = :smsNumberCountryCode', {
-          smsNumberCountryCode: parsedMobileNumber.countryCode,
+          smsNumberCountryCode: parsedPhoneNumber.countryCode,
         })
         .andWhere('priority.grant = :grant', {
           grant: priorityGrant,
