@@ -7,68 +7,54 @@ import config from '../../config'
 import { IdentityTypeEnum } from '../../types/enums'
 
 /**
- * This creates a key worker identity
+ * This creates a Furlough Worker identit
  */
 // tslint:disable: variable-name
-export class Identity1585480458646 implements MigrationInterface {
+export class Identity1585911771532 implements MigrationInterface {
   public async up(): Promise<any> {
     await dbSchema.initialiseDatabaseConnections()
     const transaction = await dbSchema.getTransaction()
 
     /**
-     * Create an address
+     * Get an existing address
      */
     const addressRepository = transaction.manager.getRepository(Address)
-
-    const addressEntity_kw: IAddress = addressRepository.create({
-      addressLine1: '1 Playfair Mansions',
-      addressLine2: `Queen's Club Gardens`,
-      addressLine3: '',
-      region: 'Fulham',
-      city: 'London',
-      country: 'UK',
-      postcode: 'W14 9TR',
-    })
-
-    const savedAddress_kw = await addressRepository.save(addressEntity_kw)
+    const addressEntity_fw: Address = await addressRepository.findOne({ where: { postcode: 'EC1V 9BG' } })
 
     /**
      * Create a phone number
      */
     const phoneNumberRepository = transaction.manager.getRepository(Phonenumber)
 
-    const phoneNumberEntity: IPhonenumber = phoneNumberRepository.create({
+    const smsNumberEntity_fw: IPhonenumber = phoneNumberRepository.create({
       countryCode: '44',
-      number: '7700900077',
+      number: '7755578054',
     })
 
-    const savedPhoneNumber = await phoneNumberRepository.save(phoneNumberEntity)
+    const telNumberEntity_fw: IPhonenumber = phoneNumberRepository.create({
+      countryCode: '44',
+      number: '2079460293',
+    })
+
+    const savedsmsNumber_fw = await phoneNumberRepository.save(smsNumberEntity_fw)
+    const savedtelNumber_fw = await phoneNumberRepository.save(telNumberEntity_fw)
 
     /**
      * Create an Identity
      */
     const identityRepository = transaction.manager.getRepository(Identity)
-
-    /* tslint:disable object-literal-sort-keys */
-    const identities_kw: IIdentity[] = [
-      {
-        firstName: 'Kit',
-        lastName: 'Harper',
-        type: IdentityTypeEnum.KEY_WORKER,
-        email: 'chris@jigsaw.xyz',
-        smsNumber: savedPhoneNumber,
-        telNumber: savedPhoneNumber,
-        dob: '26-10-1983',
-        address: savedAddress_kw,
-      },
-    ]
-
-    await Promise.all(
-      identities_kw.map(async (id: IIdentity) => {
-        const identityEntity_kw: IIdentity = identityRepository.create(id)
-        return await identityRepository.save(identityEntity_kw)
-      })
-    )
+    const identity: IIdentity = {
+      firstName: 'Richard',
+      lastName: 'Kofeve',
+      type: IdentityTypeEnum.FURLOUGH,
+      email: 'rick@homeforsummer.co.uk',
+      smsNumber: savedsmsNumber_fw,
+      telNumber: savedtelNumber_fw,
+      dob: '28-10-1964',
+      address: addressEntity_fw,
+    }
+    const identityEntity: IIdentity = identityRepository.create(identity)
+    await identityRepository.save(identityEntity)
 
     await transaction.commitTransaction()
     await dbSchema.closeDatabaseConnections()

@@ -19,58 +19,49 @@ const __1 = __importDefault(require("../"));
 const config_1 = __importDefault(require("../../config"));
 const enums_1 = require("../../types/enums");
 /**
- * This creates a key worker identity
+ * This creates a Furlough Worker identit
  */
 // tslint:disable: variable-name
-class Identity1585480458646 {
+class Identity1585911771532 {
     up() {
         return __awaiter(this, void 0, void 0, function* () {
             yield __1.default.initialiseDatabaseConnections();
             const transaction = yield __1.default.getTransaction();
             /**
-             * Create an address
+             * Get an existing address
              */
             const addressRepository = transaction.manager.getRepository(address_1.Address);
-            const addressEntity_kw = addressRepository.create({
-                addressLine1: '1 Playfair Mansions',
-                addressLine2: `Queen's Club Gardens`,
-                addressLine3: '',
-                region: 'Fulham',
-                city: 'London',
-                country: 'UK',
-                postcode: 'W14 9TR',
-            });
-            const savedAddress_kw = yield addressRepository.save(addressEntity_kw);
+            const addressEntity_fw = yield addressRepository.findOne({ where: { postcode: 'EC1V 9BG' } });
             /**
              * Create a phone number
              */
             const phoneNumberRepository = transaction.manager.getRepository(phoneNumber_1.Phonenumber);
-            const phoneNumberEntity = phoneNumberRepository.create({
+            const smsNumberEntity_fw = phoneNumberRepository.create({
                 countryCode: '44',
-                number: '7700900077',
+                number: '7755578054',
             });
-            const savedPhoneNumber = yield phoneNumberRepository.save(phoneNumberEntity);
+            const telNumberEntity_fw = phoneNumberRepository.create({
+                countryCode: '44',
+                number: '2079460293',
+            });
+            const savedsmsNumber_fw = yield phoneNumberRepository.save(smsNumberEntity_fw);
+            const savedtelNumber_fw = yield phoneNumberRepository.save(telNumberEntity_fw);
             /**
              * Create an Identity
              */
             const identityRepository = transaction.manager.getRepository(identity_1.Identity);
-            /* tslint:disable object-literal-sort-keys */
-            const identities_kw = [
-                {
-                    firstName: 'Kit',
-                    lastName: 'Harper',
-                    type: enums_1.IdentityTypeEnum.KEY_WORKER,
-                    email: 'chris@jigsaw.xyz',
-                    smsNumber: savedPhoneNumber,
-                    telNumber: savedPhoneNumber,
-                    dob: '26-10-1983',
-                    address: savedAddress_kw,
-                },
-            ];
-            yield Promise.all(identities_kw.map((id) => __awaiter(this, void 0, void 0, function* () {
-                const identityEntity_kw = identityRepository.create(id);
-                return yield identityRepository.save(identityEntity_kw);
-            })));
+            const identity = {
+                firstName: 'Richard',
+                lastName: 'Kofeve',
+                type: enums_1.IdentityTypeEnum.FURLOUGH,
+                email: 'rick@homeforsummer.co.uk',
+                smsNumber: savedsmsNumber_fw,
+                telNumber: savedtelNumber_fw,
+                dob: '28-10-1964',
+                address: addressEntity_fw,
+            };
+            const identityEntity = identityRepository.create(identity);
+            yield identityRepository.save(identityEntity);
             yield transaction.commitTransaction();
             yield __1.default.closeDatabaseConnections();
         });
@@ -83,5 +74,5 @@ class Identity1585480458646 {
         });
     }
 }
-exports.Identity1585480458646 = Identity1585480458646;
-//# sourceMappingURL=1585480458646-identity.js.map
+exports.Identity1585911771532 = Identity1585911771532;
+//# sourceMappingURL=1585911771532-identity.js.map

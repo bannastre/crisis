@@ -9,6 +9,7 @@ import { IdentityTypeEnum } from '../../types/enums'
 /**
  * This creates a vulnerable person identity
  */
+// tslint:disable: variable-name
 export class Identity1585694690202 implements MigrationInterface {
   public async up(): Promise<any> {
     await dbSchema.initialiseDatabaseConnections()
@@ -19,7 +20,7 @@ export class Identity1585694690202 implements MigrationInterface {
      */
     const addressRepository = transaction.manager.getRepository(Address)
 
-    const addressEntity: IAddress = addressRepository.create({
+    const addressEntity_vp: IAddress = addressRepository.create({
       addressLine1: '136b Barking Rd',
       addressLine2: '',
       addressLine3: '',
@@ -29,25 +30,25 @@ export class Identity1585694690202 implements MigrationInterface {
       postcode: 'E6 3BD',
     })
 
-    const savedAddress = await addressRepository.save(addressEntity)
+    const savedAddress_vp = await addressRepository.save(addressEntity_vp)
 
     /**
      * Create a phone number
      */
     const phoneNumberRepository = transaction.manager.getRepository(Phonenumber)
 
-    const phoneNumberEntity: IPhonenumber = phoneNumberRepository.create({
+    const phoneNumberEntity_vp: IPhonenumber = phoneNumberRepository.create({
       countryCode: '44',
-      number: '7911123456 ',
+      number: '7911123456',
     })
 
-    const phoneNumberEntity2: IPhonenumber = phoneNumberRepository.create({
+    const telNumberEntity_vp: IPhonenumber = phoneNumberRepository.create({
       countryCode: '44',
-      number: '1214960674 ',
+      number: '1214960674',
     })
 
-    const savedPhoneNumber = await phoneNumberRepository.save(phoneNumberEntity)
-    const savedPhoneNumber2 = await phoneNumberRepository.save(phoneNumberEntity2)
+    const savedPhoneNumber_vp = await phoneNumberRepository.save(phoneNumberEntity_vp)
+    const savedTelNumber_vp = await phoneNumberRepository.save(telNumberEntity_vp)
 
     /**
      * Create an Identity
@@ -55,23 +56,23 @@ export class Identity1585694690202 implements MigrationInterface {
     const identityRepository = transaction.manager.getRepository(Identity)
 
     /* tslint:disable object-literal-sort-keys */
-    const identities: IIdentity[] = [
+    const identities_vp: IIdentity[] = [
       {
         firstName: 'John',
         lastName: 'Barton',
         type: IdentityTypeEnum.SHIELDED_PATIENT,
         email: '',
-        smsNumber: savedPhoneNumber,
-        telNumber: savedPhoneNumber2,
+        smsNumber: savedPhoneNumber_vp,
+        telNumber: savedTelNumber_vp,
         dob: '28-10-1947',
-        address: savedAddress,
+        address: savedAddress_vp,
       },
     ]
 
     await Promise.all(
-      identities.map(async (identity: IIdentity) => {
-        const identityEntity: IIdentity = identityRepository.create(identity)
-        return await identityRepository.save(identityEntity)
+      identities_vp.map(async (id: IIdentity) => {
+        const identityEntity_vp: IIdentity = identityRepository.create(id)
+        return await identityRepository.save(identityEntity_vp)
       })
     )
 

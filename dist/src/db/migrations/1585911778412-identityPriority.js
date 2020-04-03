@@ -19,9 +19,10 @@ const identitypriority_1 = require("../entities/identitypriority");
 const config_1 = __importDefault(require("../../config"));
 const types_1 = require("../../types");
 /**
- * This assigns a common grants to a key worker
+ * This creates idenitityPriorities for Furlough demo
  */
-class Identitypriority1585495095938 {
+// tslint:disable: variable-name
+class IdentityPriority1585911778412 {
     up() {
         return __awaiter(this, void 0, void 0, function* () {
             yield __1.default.initialiseDatabaseConnections();
@@ -29,48 +30,39 @@ class Identitypriority1585495095938 {
             const identityRepository = transaction.manager.getRepository(identity_1.Identity);
             const priorityRepository = transaction.manager.getRepository(priority_1.Priority);
             const identitypriorityRepository = transaction.manager.getRepository(identitypriority_1.Identitypriority);
-            // tslint:disable: variable-name
-            const identity_key = yield identityRepository.findOne({
+            // Create Identity
+            const identity_rk = yield identityRepository.findOne({
                 where: {
-                    lastName: 'Harper',
+                    lastName: 'Kofeve',
                 },
             });
             /**
              * FOOD_DELIVERY
              *
              */
-            const food_delivery_priority = yield priorityRepository.findOne({
+            const food_delivery_priority_fw = yield priorityRepository.findOne({
                 where: { grant: types_1.GrantEnum.FOOD_DELIVERY },
             });
-            const food_delivery_identitypriority = identitypriorityRepository.create({
-                identity: identity_key,
-                priority: food_delivery_priority,
+            const food_delivery_identitypriority_fw = identitypriorityRepository.create({
+                identity: identity_rk,
+                priority: food_delivery_priority_fw,
             });
-            yield identitypriorityRepository.save(food_delivery_identitypriority);
+            yield identitypriorityRepository.save(food_delivery_identitypriority_fw);
             /**
-             * TRANSPORT_PUBLIC
-             *
+             *  FURLOUGH
              */
-            const transport_public_priority = yield priorityRepository.findOne({
-                where: { grant: types_1.GrantEnum.TRANSPORT_PUBLIC },
+            // Create Priority
+            const mortgageHolidayPriGrant = priorityRepository.create({
+                grant: types_1.GrantEnum.FINANCIAL_MORTGAGE_HOLIDAY,
+                description: 'Mortgage Holiday',
             });
-            const transport_public_identitypriority = identitypriorityRepository.create({
-                identity: identity_key,
-                priority: transport_public_priority,
+            const mortgageHolidayPriGrantEntity = yield priorityRepository.save(mortgageHolidayPriGrant);
+            // Create Mortgage Holiday IdentityPriority
+            const mortgageHolidayIdentitypriority = identitypriorityRepository.create({
+                identity: identity_rk,
+                priority: mortgageHolidayPriGrantEntity,
             });
-            yield identitypriorityRepository.save(transport_public_identitypriority);
-            /**
-             * SCHOOLING_ACCESS
-             *
-             */
-            const schooling_access_priority = yield priorityRepository.findOne({
-                where: { grant: types_1.GrantEnum.SCHOOLING_ACCESS },
-            });
-            const schooling_access_identitypriority = identitypriorityRepository.create({
-                identity: identity_key,
-                priority: schooling_access_priority,
-            });
-            yield identitypriorityRepository.save(schooling_access_identitypriority);
+            yield identitypriorityRepository.save(mortgageHolidayIdentitypriority);
             yield transaction.commitTransaction();
             yield __1.default.closeDatabaseConnections();
         });
@@ -81,5 +73,5 @@ class Identitypriority1585495095938 {
         });
     }
 }
-exports.Identitypriority1585495095938 = Identitypriority1585495095938;
-//# sourceMappingURL=1585495095938-identitypriority.js.map
+exports.IdentityPriority1585911778412 = IdentityPriority1585911778412;
+//# sourceMappingURL=1585911778412-identityPriority.js.map

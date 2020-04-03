@@ -9,27 +9,17 @@ import { IdentityTypeEnum } from '../../types/enums'
 /**
  * This creates real identities for Sainsbury's demo purposes
  */
+// tslint:disable: variable-name
 export class Identity1585814016605 implements MigrationInterface {
   public async up(): Promise<any> {
     await dbSchema.initialiseDatabaseConnections()
     const transaction = await dbSchema.getTransaction()
 
     /**
-     * Create an address
+     * Get an existing address
      */
     const addressRepository = transaction.manager.getRepository(Address)
-
-    const addressEntity: IAddress = addressRepository.create({
-      addressLine1: '116 Old Street',
-      addressLine2: '',
-      addressLine3: '',
-      region: 'Clerkenwell',
-      city: 'London',
-      country: 'UK',
-      postcode: 'EC1V 9BG',
-    })
-
-    const savedAddress = await addressRepository.save(addressEntity)
+    const addressEntity_sains: Address = await addressRepository.findOne({ where: { postcode: 'EC1V 9BG' } })
 
     /**
      * Create a phone number
@@ -43,7 +33,7 @@ export class Identity1585814016605 implements MigrationInterface {
 
     const telNumberEntityMichele: IPhonenumber = phoneNumberRepository.create({
       countryCode: '44',
-      number: '2079460288',
+      number: '2079460291',
     })
 
     const smsNumberEntityAndrew: IPhonenumber = phoneNumberRepository.create({
@@ -53,7 +43,7 @@ export class Identity1585814016605 implements MigrationInterface {
 
     const telNumberEntityAndrew: IPhonenumber = phoneNumberRepository.create({
       countryCode: '44',
-      number: '2079460290',
+      number: '2079460292',
     })
 
     const savedsmsNumberMichele = await phoneNumberRepository.save(smsNumberEntityMichele)
@@ -76,7 +66,7 @@ export class Identity1585814016605 implements MigrationInterface {
         smsNumber: savedsmsNumberMichele,
         telNumber: savedPhoneNumberMichele,
         dob: '28-10-1964',
-        address: savedAddress,
+        address: addressEntity_sains,
       },
       {
         firstName: 'Andrew',
@@ -86,13 +76,13 @@ export class Identity1585814016605 implements MigrationInterface {
         smsNumber: savedsmsNumberAndrew,
         telNumber: savedPhoneNumberAndrew,
         dob: '28-10-1965',
-        address: savedAddress,
+        address: addressEntity_sains,
       },
     ]
 
     await Promise.all(
-      identities.map(async (identity: IIdentity) => {
-        const identityEntity: IIdentity = identityRepository.create(identity)
+      identities.map(async (id: IIdentity) => {
+        const identityEntity: IIdentity = identityRepository.create(id)
         return await identityRepository.save(identityEntity)
       })
     )

@@ -12,43 +12,49 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const __1 = __importDefault(require(".."));
-const identity_1 = require("../entities/identity");
-const priority_1 = require("../entities/priority");
-const identitypriority_1 = require("../entities/identitypriority");
+// import dbSchema from '..'
+// import { Identity, IIdentity } from '../entities/identity'
+// import { Priority, IPriority } from '../entities/priority'
+// import { Identitypriority, IIdentitypriority } from '../entities/identitypriority'
 const config_1 = __importDefault(require("../../config"));
-const types_1 = require("../../types");
+// import { GrantEnum } from '../../types'
 /**
  * This assigns a unique grants to a key worker
  */
 class IdentityPriority1585694699034 {
     up() {
         return __awaiter(this, void 0, void 0, function* () {
-            yield __1.default.initialiseDatabaseConnections();
-            const transaction = yield __1.default.getTransaction();
-            const identityRepository = transaction.manager.getRepository(identity_1.Identity);
-            const priorityRepository = transaction.manager.getRepository(priority_1.Priority);
-            const identitypriorityRepository = transaction.manager.getRepository(identitypriority_1.Identitypriority);
-            const identity = yield identityRepository.findOne({
-                where: {
-                    lastName: 'Harper',
-                },
-            });
             /**
-             * SCHOOLING_ACCESS
+             *
+             * NO LONGER REQUIRED
              *
              */
-            // tslint:disable: variable-name
-            const schooling_access_priority = yield priorityRepository.findOne({
-                where: { grant: types_1.GrantEnum.SCHOOLING_ACCESS },
-            });
-            const schooling_access_identitypriority = identitypriorityRepository.create({
-                identity,
-                priority: schooling_access_priority,
-            });
-            yield identitypriorityRepository.save(schooling_access_identitypriority);
-            yield transaction.commitTransaction();
-            yield __1.default.closeDatabaseConnections();
+            // await dbSchema.initialiseDatabaseConnections()
+            // const transaction = await dbSchema.getTransaction()
+            // const identityRepository = transaction.manager.getRepository(Identity)
+            // const priorityRepository = transaction.manager.getRepository(Priority)
+            // const identitypriorityRepository = transaction.manager.getRepository(Identitypriority)
+            // const identity: IIdentity = await identityRepository.findOne({
+            //   where: {
+            //     lastName: 'Harper',
+            //   },
+            // })
+            // /**
+            //  * SCHOOLING_ACCESS
+            //  *
+            //  */
+            // // tslint:disable: variable-name
+            // const schooling_access_priority: IPriority = await priorityRepository.findOne({
+            //   where: { grant: GrantEnum.SCHOOLING_ACCESS },
+            // })
+            // const schooling_access_identitypriority: IIdentitypriority = identitypriorityRepository.create({
+            //   identity,
+            //   priority: schooling_access_priority,
+            // })
+            // await identitypriorityRepository.save(schooling_access_identitypriority)
+            // await transaction.commitTransaction()
+            // await dbSchema.closeDatabaseConnections()
+            return;
         });
     }
     down(queryRunner) {

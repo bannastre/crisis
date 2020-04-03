@@ -21,25 +21,17 @@ const enums_1 = require("../../types/enums");
 /**
  * This creates real identities for Sainsbury's demo purposes
  */
+// tslint:disable: variable-name
 class Identity1585814016605 {
     up() {
         return __awaiter(this, void 0, void 0, function* () {
             yield __1.default.initialiseDatabaseConnections();
             const transaction = yield __1.default.getTransaction();
             /**
-             * Create an address
+             * Get an existing address
              */
             const addressRepository = transaction.manager.getRepository(address_1.Address);
-            const addressEntity = addressRepository.create({
-                addressLine1: '116 Old Street',
-                addressLine2: '',
-                addressLine3: '',
-                region: 'Clerkenwell',
-                city: 'London',
-                country: 'UK',
-                postcode: 'EC1V 9BG',
-            });
-            const savedAddress = yield addressRepository.save(addressEntity);
+            const addressEntity_sains = yield addressRepository.findOne({ where: { postcode: 'EC1V 9BG' } });
             /**
              * Create a phone number
              */
@@ -50,7 +42,7 @@ class Identity1585814016605 {
             });
             const telNumberEntityMichele = phoneNumberRepository.create({
                 countryCode: '44',
-                number: '2079460288',
+                number: '2079460291',
             });
             const smsNumberEntityAndrew = phoneNumberRepository.create({
                 countryCode: '44',
@@ -58,7 +50,7 @@ class Identity1585814016605 {
             });
             const telNumberEntityAndrew = phoneNumberRepository.create({
                 countryCode: '44',
-                number: '2079460290',
+                number: '2079460292',
             });
             const savedsmsNumberMichele = yield phoneNumberRepository.save(smsNumberEntityMichele);
             const savedPhoneNumberMichele = yield phoneNumberRepository.save(telNumberEntityMichele);
@@ -78,7 +70,7 @@ class Identity1585814016605 {
                     smsNumber: savedsmsNumberMichele,
                     telNumber: savedPhoneNumberMichele,
                     dob: '28-10-1964',
-                    address: savedAddress,
+                    address: addressEntity_sains,
                 },
                 {
                     firstName: 'Andrew',
@@ -88,11 +80,11 @@ class Identity1585814016605 {
                     smsNumber: savedsmsNumberAndrew,
                     telNumber: savedPhoneNumberAndrew,
                     dob: '28-10-1965',
-                    address: savedAddress,
+                    address: addressEntity_sains,
                 },
             ];
-            yield Promise.all(identities.map((identity) => __awaiter(this, void 0, void 0, function* () {
-                const identityEntity = identityRepository.create(identity);
+            yield Promise.all(identities.map((id) => __awaiter(this, void 0, void 0, function* () {
+                const identityEntity = identityRepository.create(id);
                 return yield identityRepository.save(identityEntity);
             })));
             yield transaction.commitTransaction();

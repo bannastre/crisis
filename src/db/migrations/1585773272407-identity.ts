@@ -9,6 +9,7 @@ import { IdentityTypeEnum } from '../../types/enums'
 /**
  * This creates real identities for demo purposes
  */
+// tslint:disable: variable-name
 export class Identity1585773272407 implements MigrationInterface {
   public async up(): Promise<any> {
     await dbSchema.initialiseDatabaseConnections()
@@ -19,7 +20,7 @@ export class Identity1585773272407 implements MigrationInterface {
      */
     const addressRepository = transaction.manager.getRepository(Address)
 
-    const addressEntity: IAddress = addressRepository.create({
+    const addressEntity_os: IAddress = addressRepository.create({
       addressLine1: '116 Old Street',
       addressLine2: '',
       addressLine3: '',
@@ -29,7 +30,7 @@ export class Identity1585773272407 implements MigrationInterface {
       postcode: 'EC1V 9BG',
     })
 
-    const savedAddress = await addressRepository.save(addressEntity)
+    const savedAddress_os = await addressRepository.save(addressEntity_os)
 
     /**
      * Create a phone number
@@ -53,7 +54,7 @@ export class Identity1585773272407 implements MigrationInterface {
 
     const telNumberEntityDaryl: IPhonenumber = phoneNumberRepository.create({
       countryCode: '44',
-      number: '2079460289',
+      number: '2079460290',
     })
 
     const savedsmsNumberIsmail = await phoneNumberRepository.save(smsNumberEntityIsmail)
@@ -76,7 +77,7 @@ export class Identity1585773272407 implements MigrationInterface {
         smsNumber: savedsmsNumberIsmail,
         telNumber: savedPhoneNumberIsmail,
         dob: '28-10-1947',
-        address: savedAddress,
+        address: savedAddress_os,
       },
       {
         firstName: 'Daryl',
@@ -86,13 +87,13 @@ export class Identity1585773272407 implements MigrationInterface {
         smsNumber: savedsmsNumberDaryl,
         telNumber: savedPhoneNumberDaryl,
         dob: '28-10-1947',
-        address: savedAddress,
+        address: savedAddress_os,
       },
     ]
 
     await Promise.all(
-      identities.map(async (identity: IIdentity) => {
-        const identityEntity: IIdentity = identityRepository.create(identity)
+      identities.map(async (id: IIdentity) => {
+        const identityEntity: IIdentity = identityRepository.create(id)
         return await identityRepository.save(identityEntity)
       })
     )

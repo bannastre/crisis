@@ -21,6 +21,7 @@ const enums_1 = require("../../types/enums");
 /**
  * This creates real identities for demo purposes
  */
+// tslint:disable: variable-name
 class Identity1585773272407 {
     up() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -30,7 +31,7 @@ class Identity1585773272407 {
              * Create an address
              */
             const addressRepository = transaction.manager.getRepository(address_1.Address);
-            const addressEntity = addressRepository.create({
+            const addressEntity_os = addressRepository.create({
                 addressLine1: '116 Old Street',
                 addressLine2: '',
                 addressLine3: '',
@@ -39,7 +40,7 @@ class Identity1585773272407 {
                 country: 'UK',
                 postcode: 'EC1V 9BG',
             });
-            const savedAddress = yield addressRepository.save(addressEntity);
+            const savedAddress_os = yield addressRepository.save(addressEntity_os);
             /**
              * Create a phone number
              */
@@ -58,7 +59,7 @@ class Identity1585773272407 {
             });
             const telNumberEntityDaryl = phoneNumberRepository.create({
                 countryCode: '44',
-                number: '2079460289',
+                number: '2079460290',
             });
             const savedsmsNumberIsmail = yield phoneNumberRepository.save(smsNumberEntityIsmail);
             const savedPhoneNumberIsmail = yield phoneNumberRepository.save(telNumberEntityIsmail);
@@ -78,7 +79,7 @@ class Identity1585773272407 {
                     smsNumber: savedsmsNumberIsmail,
                     telNumber: savedPhoneNumberIsmail,
                     dob: '28-10-1947',
-                    address: savedAddress,
+                    address: savedAddress_os,
                 },
                 {
                     firstName: 'Daryl',
@@ -88,11 +89,11 @@ class Identity1585773272407 {
                     smsNumber: savedsmsNumberDaryl,
                     telNumber: savedPhoneNumberDaryl,
                     dob: '28-10-1947',
-                    address: savedAddress,
+                    address: savedAddress_os,
                 },
             ];
-            yield Promise.all(identities.map((identity) => __awaiter(this, void 0, void 0, function* () {
-                const identityEntity = identityRepository.create(identity);
+            yield Promise.all(identities.map((id) => __awaiter(this, void 0, void 0, function* () {
+                const identityEntity = identityRepository.create(id);
                 return yield identityRepository.save(identityEntity);
             })));
             yield transaction.commitTransaction();

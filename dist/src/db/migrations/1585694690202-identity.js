@@ -21,6 +21,7 @@ const enums_1 = require("../../types/enums");
 /**
  * This creates a vulnerable person identity
  */
+// tslint:disable: variable-name
 class Identity1585694690202 {
     up() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -30,7 +31,7 @@ class Identity1585694690202 {
              * Create an address
              */
             const addressRepository = transaction.manager.getRepository(address_1.Address);
-            const addressEntity = addressRepository.create({
+            const addressEntity_vp = addressRepository.create({
                 addressLine1: '136b Barking Rd',
                 addressLine2: '',
                 addressLine3: '',
@@ -39,41 +40,41 @@ class Identity1585694690202 {
                 country: 'UK',
                 postcode: 'E6 3BD',
             });
-            const savedAddress = yield addressRepository.save(addressEntity);
+            const savedAddress_vp = yield addressRepository.save(addressEntity_vp);
             /**
              * Create a phone number
              */
             const phoneNumberRepository = transaction.manager.getRepository(phoneNumber_1.Phonenumber);
-            const phoneNumberEntity = phoneNumberRepository.create({
+            const phoneNumberEntity_vp = phoneNumberRepository.create({
                 countryCode: '44',
-                number: '7911123456 ',
+                number: '7911123456',
             });
-            const phoneNumberEntity2 = phoneNumberRepository.create({
+            const telNumberEntity_vp = phoneNumberRepository.create({
                 countryCode: '44',
-                number: '1214960674 ',
+                number: '1214960674',
             });
-            const savedPhoneNumber = yield phoneNumberRepository.save(phoneNumberEntity);
-            const savedPhoneNumber2 = yield phoneNumberRepository.save(phoneNumberEntity2);
+            const savedPhoneNumber_vp = yield phoneNumberRepository.save(phoneNumberEntity_vp);
+            const savedTelNumber_vp = yield phoneNumberRepository.save(telNumberEntity_vp);
             /**
              * Create an Identity
              */
             const identityRepository = transaction.manager.getRepository(identity_1.Identity);
             /* tslint:disable object-literal-sort-keys */
-            const identities = [
+            const identities_vp = [
                 {
                     firstName: 'John',
                     lastName: 'Barton',
                     type: enums_1.IdentityTypeEnum.SHIELDED_PATIENT,
                     email: '',
-                    smsNumber: savedPhoneNumber,
-                    telNumber: savedPhoneNumber2,
+                    smsNumber: savedPhoneNumber_vp,
+                    telNumber: savedTelNumber_vp,
                     dob: '28-10-1947',
-                    address: savedAddress,
+                    address: savedAddress_vp,
                 },
             ];
-            yield Promise.all(identities.map((identity) => __awaiter(this, void 0, void 0, function* () {
-                const identityEntity = identityRepository.create(identity);
-                return yield identityRepository.save(identityEntity);
+            yield Promise.all(identities_vp.map((id) => __awaiter(this, void 0, void 0, function* () {
+                const identityEntity_vp = identityRepository.create(id);
+                return yield identityRepository.save(identityEntity_vp);
             })));
             yield transaction.commitTransaction();
             yield __1.default.closeDatabaseConnections();

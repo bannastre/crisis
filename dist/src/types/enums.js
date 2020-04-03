@@ -2,8 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var GrantEnum;
 (function (GrantEnum) {
-    GrantEnum["SHIELDED_PATIENT"] = "shielded patient";
-    GrantEnum["KEY_WORKER"] = "Key Worker";
+    GrantEnum["FINANCIAL_MORTGAGE_HOLIDAY"] = "financial|mortgage|holiday";
     GrantEnum["FOOD_DELIVERY"] = "food|delivery";
     GrantEnum["TRANSPORT_PUBLIC"] = "transport|public";
     GrantEnum["TRANSPORT_PRIVATE"] = "transport|private";
@@ -23,6 +22,7 @@ var IdentityTypeEnum;
 (function (IdentityTypeEnum) {
     IdentityTypeEnum["SHIELDED_PATIENT"] = "shielded patient";
     IdentityTypeEnum["KEY_WORKER"] = "key worker";
+    IdentityTypeEnum["FURLOUGH"] = "furlough";
     IdentityTypeEnum["NONE"] = "none";
     IdentityTypeEnum["STANDARD"] = "standard";
 })(IdentityTypeEnum = exports.IdentityTypeEnum || (exports.IdentityTypeEnum = {}));

@@ -1,6 +1,5 @@
 export enum GrantEnum {
-  SHIELDED_PATIENT = 'shielded patient',
-  KEY_WORKER = 'Key Worker',
+  FINANCIAL_MORTGAGE_HOLIDAY = 'financial|mortgage|holiday',
   FOOD_DELIVERY = 'food|delivery',
   TRANSPORT_PUBLIC = 'transport|public',
   TRANSPORT_PRIVATE = 'transport|private',
@@ -20,6 +19,7 @@ export enum ErrorEnum {
 export enum IdentityTypeEnum {
   SHIELDED_PATIENT = 'shielded patient',
   KEY_WORKER = 'key worker',
+  FURLOUGH = 'furlough',
   NONE = 'none',
   STANDARD = 'standard',
 }

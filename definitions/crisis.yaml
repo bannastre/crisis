@@ -13,7 +13,7 @@ info:
     url: https://www.jigsaw.xyz/license-v1.html
 servers:
   - url: http://localhost:3000/crisis/
-  - url: https://api.crisis.jigsaw.xyz/v1
+  - url: https://crisis.azure-api.net/crisis/
 paths:
   /healthcheck/ping:
     get:
@@ -65,6 +65,7 @@ paths:
       operationId: get priority grant
       parameters:
         - $ref: '#/components/parameters/xCorrelationId'
+        - $ref: '#/components/parameters/OcpApimSubscriptionKey'
         - $ref: '#/components/parameters/bearerAuthentication'
         - $ref: '#/components/parameters/mobileNumberPathParameter'
         - $ref: '#/components/parameters/priorityGrantPathParameter'
@@ -116,11 +117,11 @@ components:
       schema:
         type: string
         format: uuid
-    xTenantNamespace:
-      name: x-tenant-namespace
+    OcpApimSubscriptionKey:
+      name: Ocp-Apim-Subscription-Key
       required: true
       in: header
-      description: Tenant identity.
+      description: Apim Subscription Key.
       schema:
         type: string
     bearerAuthentication:
@@ -155,7 +156,7 @@ components:
       properties:
         priority:
           type: string
-          example: 'food::delivery'
+          example: 'key worker'
         valid:
           type: boolean
     NotFoundError:
