@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const __1 = __importDefault(require(".."));
+const __1 = require("..");
 const identity_1 = require("../entities/identity");
 const priority_1 = require("../entities/priority");
 const identitypriority_1 = require("../entities/identitypriority");
@@ -22,10 +22,13 @@ const types_1 = require("../../types");
  * This assigns a common and unique grants to a vulnerable person
  */
 class IdentityPriority1585694701757 {
+    constructor() {
+        this.dbSchema = new __1.DbSchema(new __1.Db(config_1.default.connection));
+    }
     up() {
         return __awaiter(this, void 0, void 0, function* () {
-            yield __1.default.initialiseDatabaseConnections();
-            const transaction = yield __1.default.getTransaction();
+            yield this.dbSchema.initialiseDatabaseConnections();
+            const transaction = yield this.dbSchema.getTransaction();
             const identityRepository = transaction.manager.getRepository(identity_1.Identity);
             const priorityRepository = transaction.manager.getRepository(priority_1.Priority);
             const identitypriorityRepository = transaction.manager.getRepository(identitypriority_1.Identitypriority);
@@ -96,7 +99,7 @@ class IdentityPriority1585694701757 {
             });
             yield identitypriorityRepository.save(healthccare_meds_identitypriority);
             yield transaction.commitTransaction();
-            yield __1.default.closeDatabaseConnections();
+            yield this.dbSchema.closeDatabaseConnections();
         });
     }
     down(queryRunner) {

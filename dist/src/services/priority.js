@@ -15,11 +15,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const libphonenumber_js_1 = require("libphonenumber-js");
 const phone_1 = __importDefault(require("phone"));
 const types_1 = require("../types");
-const db_1 = __importDefault(require("../db"));
-const identity_1 = require("../db/entities/identity");
 const helpers_1 = require("../helpers");
 const enums_1 = require("../types/enums");
 class PriorityService {
+    constructor(identityRepository) {
+        this.identityRepository = identityRepository;
+    }
     parsePhoneNumber(phoneNumber) {
         try {
             console.log(`[priorityService::parsePhoneNumber] parsing phone number`);
@@ -36,26 +37,10 @@ class PriorityService {
     }
     findGrantByMobileNo(priorityGrant, mobileNo) {
         return __awaiter(this, void 0, void 0, function* () {
-            const qr = yield db_1.default.getQueryRunner();
             try {
                 console.log(`[priorityService::findGrantsByMobileNo] Issuing request for priority by identity.smsNumber`);
                 const parsedPhoneNumber = this.parsePhoneNumber(mobileNo);
-                const identityRepository = qr.manager.getRepository(identity_1.Identity);
-                const identity = yield identityRepository
-                    .createQueryBuilder('identity')
-                    .innerJoinAndSelect('identity.smsNumber', 'smsNumber')
-                    .innerJoinAndSelect('identity.identitypriorities', 'identitypriority')
-                    .leftJoinAndSelect('identitypriority.priority', 'priority')
-                    .where('smsNumber.number = :smsNumberNumber', {
-                    smsNumberNumber: parsedPhoneNumber.number,
-                })
-                    .andWhere('smsNumber.countryCode = :smsNumberCountryCode', {
-                    smsNumberCountryCode: parsedPhoneNumber.countryCode,
-                })
-                    .andWhere('priority.grant = :grant', {
-                    grant: priorityGrant,
-                })
-                    .getOne();
+                const identity = yield this.identityRepository.findByMobileAndGrant(parsedPhoneNumber, priorityGrant);
                 console.log(`[priorityService::findGrantsByMobileNo] Priority Grant checked`);
                 const priority = identity ? identity.type : enums_1.IdentityTypeEnum.STANDARD;
                 const valid = !!identity;

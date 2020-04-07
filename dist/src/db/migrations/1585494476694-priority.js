@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const __1 = __importDefault(require("../"));
+const __1 = require("../");
 const config_1 = __importDefault(require("../../config"));
 const types_1 = require("../../types");
 const priority_1 = require("../entities/priority");
@@ -50,10 +50,13 @@ exports.priorityEntities = [
     },
 ];
 class Priority1585494476694 {
+    constructor() {
+        this.dbSchema = new __1.DbSchema(new __1.Db(config_1.default.connection));
+    }
     up() {
         return __awaiter(this, void 0, void 0, function* () {
-            yield __1.default.initialiseDatabaseConnections();
-            const transaction = yield __1.default.getTransaction();
+            yield this.dbSchema.initialiseDatabaseConnections();
+            const transaction = yield this.dbSchema.getTransaction();
             /**
              * Create an priority
              */
@@ -63,7 +66,7 @@ class Priority1585494476694 {
                 return yield priorityRepository.save(priorityEntity);
             })));
             yield transaction.commitTransaction();
-            yield __1.default.closeDatabaseConnections();
+            yield this.dbSchema.closeDatabaseConnections();
         });
     }
     down(queryRunner) {

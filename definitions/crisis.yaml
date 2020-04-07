@@ -141,7 +141,6 @@ components:
         type: string
     priorityGrantPathParameter:
       name: priorityGrant
-      required: true
       in: query
       description: Priority Grant from Enum
       schema:

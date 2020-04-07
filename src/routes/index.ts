@@ -1,29 +1,16 @@
-import express, { Response } from 'express'
-import { constants } from 'http2'
-import config from '../config'
+import express, { Router } from 'express'
 
+import { healthcheckRouter } from './healthcheck'
 import { priorityRouter } from './priority'
+import { DbSchema } from '../db'
 
-const router = express.Router()
+const indexRouter = (dbSchema: DbSchema): Router => {
+  const router: Router = express.Router()
 
-router.get('/healthcheck/ping', (_: any, res: Response) => res.status(200).send({ message: 'ok' }))
-router.get('/healthcheck/ready', async (_: any, res: Response) => {
-  try {
-    if (config.env === 'test') {
-      res.status(constants.HTTP_STATUS_OK).send({
-        message: 'ok',
-      })
-    } else {
-      res.status(constants.HTTP_STATUS_OK).send({
-        // TODO: test ping from dependencies
-        message: 'ok',
-      })
-    }
-  } catch (error) {
-    res.status(constants.HTTP_STATUS_SERVICE_UNAVAILABLE).send()
-  }
-})
+  router.use('/healthcheck', healthcheckRouter)
+  router.use('/priority', priorityRouter(dbSchema))
 
-router.use('/priority', priorityRouter)
+  return router
+}
 
-export default router
+export default indexRouter

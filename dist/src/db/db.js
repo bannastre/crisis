@@ -8,12 +8,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
-const config_1 = __importDefault(require("../config"));
 class Db {
     constructor(connectionOptions) {
         this.connectionOptions = connectionOptions;
@@ -38,7 +34,7 @@ class Db {
     close() {
         return __awaiter(this, void 0, void 0, function* () {
             if (!this.connection) {
-                throw new Error('Database connections not initialised');
+                throw new Error('Database connections cannot be closed as they are not initialised');
             }
             try {
                 console.info(`[db::close dbConnection] - Closing`);
@@ -62,7 +58,5 @@ class Db {
         });
     }
 }
-exports.Db = Db;
-const db = new Db(config_1.default.connection);
-exports.default = db;
+exports.default = Db;
 //# sourceMappingURL=db.js.map

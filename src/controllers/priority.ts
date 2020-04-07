@@ -4,7 +4,7 @@ import { IScopedRequest, ErrorEnum } from '../types'
 import PriorityService from '../services/priority'
 
 export default class PriorityController {
-  constructor(private priorityService = new PriorityService()) {}
+  constructor(private priorityService: PriorityService) {}
 
   public get = async (req: IScopedRequest, res: Response, next: NextFunction) => {
     try {

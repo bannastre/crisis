@@ -1,5 +1,5 @@
 import { MigrationInterface, QueryRunner } from 'typeorm'
-import dbSchema from '..'
+import { DbSchema, Db } from '..'
 import { Identity, IIdentity } from '../entities/identity'
 import { Priority, IPriority } from '../entities/priority'
 import { Identitypriority, IIdentitypriority } from '../entities/identitypriority'
@@ -11,9 +11,10 @@ import { GrantEnum } from '../../types'
  */
 // tslint:disable: variable-name
 export class IdentityPriority1585911778412 implements MigrationInterface {
+  dbSchema = new DbSchema(new Db(config.connection))
   public async up(): Promise<any> {
-    await dbSchema.initialiseDatabaseConnections()
-    const transaction = await dbSchema.getTransaction()
+    await this.dbSchema.initialiseDatabaseConnections()
+    const transaction = await this.dbSchema.getTransaction()
 
     const identityRepository = transaction.manager.getRepository(Identity)
     const priorityRepository = transaction.manager.getRepository(Priority)
@@ -60,7 +61,7 @@ export class IdentityPriority1585911778412 implements MigrationInterface {
     await identitypriorityRepository.save(mortgageHolidayIdentitypriority)
 
     await transaction.commitTransaction()
-    await dbSchema.closeDatabaseConnections()
+    await this.dbSchema.closeDatabaseConnections()
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {

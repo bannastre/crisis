@@ -1,18 +1,19 @@
-import { parsePhoneNumberFromString, CountryCallingCode, NationalNumber } from 'libphonenumber-js'
+import { parsePhoneNumberFromString, CountryCallingCode, NationalNumber, PhoneNumber } from 'libphonenumber-js'
 import phone from 'phone'
 import { IGrantResponse, GrantEnum, ErrorEnum } from '../types'
-import dbSchema from '../db'
-import { Identity } from '../db/entities/identity'
 import { IPhonenumber } from '../db/entities/phoneNumber'
+import IdentityRepository from '../db/repositories/identity'
 import { FancyError } from '../helpers'
 import { IdentityTypeEnum } from '../types/enums'
 
 export default class PriorityService {
+  constructor(private identityRepository: IdentityRepository) {}
+
   private parsePhoneNumber(phoneNumber: string): IPhonenumber {
     try {
       console.log(`[priorityService::parsePhoneNumber] parsing phone number`)
       const validatedNumber = phone(phoneNumber, 'GB', true)
-      const parsedPhoneNumber = parsePhoneNumberFromString(validatedNumber[0])
+      const parsedPhoneNumber: PhoneNumber = parsePhoneNumberFromString(validatedNumber[0])
 
       const countryCode: CountryCallingCode = parsedPhoneNumber ? parsedPhoneNumber.countryCallingCode : '+44'
       const nationalNumber: NationalNumber = parsedPhoneNumber ? parsedPhoneNumber.nationalNumber : phoneNumber
@@ -25,28 +26,11 @@ export default class PriorityService {
   }
 
   public async findGrantByMobileNo(priorityGrant: GrantEnum, mobileNo: string): Promise<IGrantResponse> {
-    const qr = await dbSchema.getQueryRunner()
-
     try {
       console.log(`[priorityService::findGrantsByMobileNo] Issuing request for priority by identity.smsNumber`)
-      const parsedPhoneNumber = this.parsePhoneNumber(mobileNo)
+      const parsedPhoneNumber: IPhonenumber = this.parsePhoneNumber(mobileNo)
 
-      const identityRepository = qr.manager.getRepository(Identity)
-      const identity = await identityRepository
-        .createQueryBuilder('identity')
-        .innerJoinAndSelect('identity.smsNumber', 'smsNumber')
-        .innerJoinAndSelect('identity.identitypriorities', 'identitypriority')
-        .leftJoinAndSelect('identitypriority.priority', 'priority')
-        .where('smsNumber.number = :smsNumberNumber', {
-          smsNumberNumber: parsedPhoneNumber.number,
-        })
-        .andWhere('smsNumber.countryCode = :smsNumberCountryCode', {
-          smsNumberCountryCode: parsedPhoneNumber.countryCode,
-        })
-        .andWhere('priority.grant = :grant', {
-          grant: priorityGrant,
-        })
-        .getOne()
+      const identity = await this.identityRepository.findByMobileAndGrant(parsedPhoneNumber, priorityGrant)
 
       console.log(`[priorityService::findGrantsByMobileNo] Priority Grant checked`)
 

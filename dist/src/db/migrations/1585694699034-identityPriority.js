@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// import dbSchema from '..'
+// import { DbSchema, Db } from '..'
 // import { Identity, IIdentity } from '../entities/identity'
 // import { Priority, IPriority } from '../entities/priority'
 // import { Identitypriority, IIdentitypriority } from '../entities/identitypriority'
@@ -29,8 +29,9 @@ class IdentityPriority1585694699034 {
              * NO LONGER REQUIRED
              *
              */
-            // await dbSchema.initialiseDatabaseConnections()
-            // const transaction = await dbSchema.getTransaction()
+            // dbSchema = new DbSchema(new Db(config.connection))
+            // await this.dbSchema.initialiseDatabaseConnections()
+            // const transaction = await this.dbSchema.getTransaction()
             // const identityRepository = transaction.manager.getRepository(Identity)
             // const priorityRepository = transaction.manager.getRepository(Priority)
             // const identitypriorityRepository = transaction.manager.getRepository(Identitypriority)
@@ -53,7 +54,7 @@ class IdentityPriority1585694699034 {
             // })
             // await identitypriorityRepository.save(schooling_access_identitypriority)
             // await transaction.commitTransaction()
-            // await dbSchema.closeDatabaseConnections()
+            // await this.dbSchema.closeDatabaseConnections()
             return;
         });
     }

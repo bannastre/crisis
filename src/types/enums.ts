@@ -1,4 +1,5 @@
 export enum GrantEnum {
+  ANY = 'any',
   FINANCIAL_MORTGAGE_HOLIDAY = 'financial|mortgage|holiday',
   FOOD_DELIVERY = 'food|delivery',
   TRANSPORT_PUBLIC = 'transport|public',

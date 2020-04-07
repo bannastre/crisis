@@ -1,7 +1,6 @@
 import { Connection, ConnectionOptions, createConnections, getConnection } from 'typeorm'
-import config from '../config'
 
-export class Db {
+export default class Db {
   protected connection: Connection
   private connectionName = 'crisis'
 
@@ -24,7 +23,7 @@ export class Db {
 
   public async close(): Promise<void> {
     if (!this.connection) {
-      throw new Error('Database connections not initialised')
+      throw new Error('Database connections cannot be closed as they are not initialised')
     }
     try {
       console.info(`[db::close dbConnection] - Closing`)
@@ -44,6 +43,3 @@ export class Db {
     }
   }
 }
-
-const db = new Db(config.connection)
-export default db

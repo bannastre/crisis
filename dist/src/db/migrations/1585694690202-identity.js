@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const identity_1 = require("../entities/identity");
 const address_1 = require("../entities/address");
 const phoneNumber_1 = require("../entities/phoneNumber");
-const __1 = __importDefault(require("../"));
+const __1 = require("../");
 const config_1 = __importDefault(require("../../config"));
 const enums_1 = require("../../types/enums");
 /**
@@ -23,10 +23,13 @@ const enums_1 = require("../../types/enums");
  */
 // tslint:disable: variable-name
 class Identity1585694690202 {
+    constructor() {
+        this.dbSchema = new __1.DbSchema(new __1.Db(config_1.default.connection));
+    }
     up() {
         return __awaiter(this, void 0, void 0, function* () {
-            yield __1.default.initialiseDatabaseConnections();
-            const transaction = yield __1.default.getTransaction();
+            yield this.dbSchema.initialiseDatabaseConnections();
+            const transaction = yield this.dbSchema.getTransaction();
             /**
              * Create an address
              */
@@ -77,7 +80,7 @@ class Identity1585694690202 {
                 return yield identityRepository.save(identityEntity_vp);
             })));
             yield transaction.commitTransaction();
-            yield __1.default.closeDatabaseConnections();
+            yield this.dbSchema.closeDatabaseConnections();
         });
     }
     down(queryRunner) {

@@ -1,5 +1,5 @@
 import { MigrationInterface, QueryRunner } from 'typeorm'
-// import dbSchema from '..'
+// import { DbSchema, Db } from '..'
 // import { Identity, IIdentity } from '../entities/identity'
 // import { Priority, IPriority } from '../entities/priority'
 // import { Identitypriority, IIdentitypriority } from '../entities/identitypriority'
@@ -16,8 +16,10 @@ export class IdentityPriority1585694699034 implements MigrationInterface {
      * NO LONGER REQUIRED
      *
      */
-    // await dbSchema.initialiseDatabaseConnections()
-    // const transaction = await dbSchema.getTransaction()
+    // dbSchema = new DbSchema(new Db(config.connection))
+
+    // await this.dbSchema.initialiseDatabaseConnections()
+    // const transaction = await this.dbSchema.getTransaction()
     // const identityRepository = transaction.manager.getRepository(Identity)
     // const priorityRepository = transaction.manager.getRepository(Priority)
     // const identitypriorityRepository = transaction.manager.getRepository(Identitypriority)
@@ -40,7 +42,7 @@ export class IdentityPriority1585694699034 implements MigrationInterface {
     // })
     // await identitypriorityRepository.save(schooling_access_identitypriority)
     // await transaction.commitTransaction()
-    // await dbSchema.closeDatabaseConnections()
+    // await this.dbSchema.closeDatabaseConnections()
     return
   }
 

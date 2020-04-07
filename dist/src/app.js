@@ -17,7 +17,7 @@ const express_1 = __importDefault(require("express"));
 const morgan_1 = __importDefault(require("morgan"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const config_1 = __importDefault(require("./config"));
-const db_1 = __importDefault(require("./db"));
+const db_1 = require("./db");
 const routes_1 = __importDefault(require("./routes"));
 const express_openapi_validator_1 = require("express-openapi-validator");
 const path_1 = __importDefault(require("path"));
@@ -26,11 +26,13 @@ function start() {
     return __awaiter(this, void 0, void 0, function* () {
         console.debug('configuring using....');
         console.debug(config_1.default);
+        const dbSchema = new db_1.DbSchema(new db_1.Db(config_1.default.connection));
+        let connections;
         if (config_1.default.env !== 'test') {
-            const connections = yield db_1.default.initialiseDatabaseConnections();
+            connections = yield dbSchema.initialiseDatabaseConnections();
             connections.map((connection) => {
                 console.log(`${connection.name}: ${connection.options.username}@${connection.options.host}:${connection.options.port}
-          (${connection.options.database})\n`, `connected: ${connection.isConnected}`);
+        (${connection.options.database})\n`, `connected: ${connection.isConnected}`);
             });
         }
         app.disable('x-powered-by');
@@ -49,7 +51,7 @@ function start() {
         })
             .install(app)
             .then(() => {
-            app.use(config_1.default.basePath, routes_1.default);
+            app.use(config_1.default.basePath, routes_1.default(dbSchema));
             app.use((err, req, res, next) => {
                 res.locals.message = err.message;
                 res.locals.error = req.app.get('env') === 'development' ? err : {};

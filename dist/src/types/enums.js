@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var GrantEnum;
 (function (GrantEnum) {
+    GrantEnum["ANY"] = "any";
     GrantEnum["FINANCIAL_MORTGAGE_HOLIDAY"] = "financial|mortgage|holiday";
     GrantEnum["FOOD_DELIVERY"] = "food|delivery";
     GrantEnum["TRANSPORT_PUBLIC"] = "transport|public";

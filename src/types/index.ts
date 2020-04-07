@@ -1,5 +1,4 @@
-import { Request } from 'express'
-import { GrantEnum, ErrorEnum } from './enums'
+import { GrantEnum, ErrorEnum, IdentityTypeEnum } from './enums'
 import { IScopedRequest, IGrantResponse } from './contracts'
 
 interface IGrant {
@@ -7,4 +6,4 @@ interface IGrant {
   valid: boolean
 }
 
-export { ErrorEnum, GrantEnum, IGrant, IGrantResponse, IScopedRequest }
+export { ErrorEnum, GrantEnum, IdentityTypeEnum, IGrant, IGrantResponse, IScopedRequest }

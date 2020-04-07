@@ -3,11 +3,12 @@ import express, { NextFunction, Request, Response } from 'express'
 import logger from 'morgan'
 import cookieParser from 'cookie-parser'
 import config from './config'
-import dbSchema from './db'
+import { DbSchema, Db } from './db'
 import indexRouter from './routes'
 import { OpenApiValidator } from 'express-openapi-validator'
 import * as http from 'http'
 import path from 'path'
+import { Connection } from 'typeorm'
 
 const app: express.Express = express()
 
@@ -15,13 +16,16 @@ export async function start(): Promise<http.Server> {
   console.debug('configuring using....')
   console.debug(config)
 
+  const dbSchema = new DbSchema(new Db(config.connection))
+  let connections: Connection[]
+
   if (config.env !== 'test') {
-    const connections = await dbSchema.initialiseDatabaseConnections()
+    connections = await dbSchema.initialiseDatabaseConnections()
 
     connections.map((connection: any) => {
       console.log(
         `${connection.name}: ${connection.options.username}@${connection.options.host}:${connection.options.port}
-          (${connection.options.database})\n`,
+        (${connection.options.database})\n`,
         `connected: ${connection.isConnected}`
       )
     })
@@ -46,7 +50,7 @@ export async function start(): Promise<http.Server> {
   })
     .install(app)
     .then(() => {
-      app.use(config.basePath, indexRouter)
+      app.use(config.basePath, indexRouter(dbSchema))
 
       app.use((err: any, req: Request, res: Response, next: NextFunction) => {
         res.locals.message = err.message

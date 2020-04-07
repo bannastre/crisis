@@ -2,7 +2,7 @@ import { MigrationInterface, QueryRunner } from 'typeorm'
 import { Identity, IIdentity } from '../entities/identity'
 import { Address, IAddress } from '../entities/address'
 import { Phonenumber, IPhonenumber } from '../entities/phoneNumber'
-import dbSchema from '../'
+import { DbSchema, Db } from '../'
 import config from '../../config'
 import { IdentityTypeEnum } from '../../types/enums'
 
@@ -11,9 +11,10 @@ import { IdentityTypeEnum } from '../../types/enums'
  */
 // tslint:disable: variable-name
 export class Identity1585911771532 implements MigrationInterface {
+  dbSchema = new DbSchema(new Db(config.connection))
   public async up(): Promise<any> {
-    await dbSchema.initialiseDatabaseConnections()
-    const transaction = await dbSchema.getTransaction()
+    await this.dbSchema.initialiseDatabaseConnections()
+    const transaction = await this.dbSchema.getTransaction()
 
     /**
      * Get an existing address
@@ -57,7 +58,7 @@ export class Identity1585911771532 implements MigrationInterface {
     await identityRepository.save(identityEntity)
 
     await transaction.commitTransaction()
-    await dbSchema.closeDatabaseConnections()
+    await this.dbSchema.closeDatabaseConnections()
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {

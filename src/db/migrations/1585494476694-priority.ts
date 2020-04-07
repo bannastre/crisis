@@ -1,5 +1,5 @@
 import { MigrationInterface, QueryRunner } from 'typeorm'
-import dbSchema from '../'
+import { DbSchema, Db } from '../'
 import config from '../../config'
 import { GrantEnum } from '../../types'
 import { Priority, IPriority } from '../entities/priority'
@@ -39,9 +39,11 @@ export const priorityEntities: IPriority[] = [
 ]
 
 export class Priority1585494476694 implements MigrationInterface {
+  dbSchema = new DbSchema(new Db(config.connection))
+
   public async up(): Promise<any> {
-    await dbSchema.initialiseDatabaseConnections()
-    const transaction = await dbSchema.getTransaction()
+    await this.dbSchema.initialiseDatabaseConnections()
+    const transaction = await this.dbSchema.getTransaction()
 
     /**
      * Create an priority
@@ -56,7 +58,7 @@ export class Priority1585494476694 implements MigrationInterface {
     )
 
     await transaction.commitTransaction()
-    await dbSchema.closeDatabaseConnections()
+    await this.dbSchema.closeDatabaseConnections()
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {
