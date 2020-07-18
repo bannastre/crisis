@@ -1,34 +1,28 @@
-import { IScopedRequest, IGrant, GrantEnum, ErrorEnum } from '../types'
 import { NextFunction, Response } from 'express'
 import { constants } from 'http2'
-
-const mobileNumberArray = ['07843627130']
+import { IScopedRequest, ErrorEnum } from '../types'
+import PriorityService from '../services/priority'
 
 export default class PriorityController {
-  public get = (req: IScopedRequest, res: Response, next: NextFunction) => {
+  constructor(private priorityService: PriorityService) {}
+
+  public get = async (req: IScopedRequest, res: Response, next: NextFunction) => {
     try {
-      const { priorityPermission, mobileNumber } = req.query
-      let grant: IGrant
-      switch (priorityPermission) {
-        case GrantEnum.FOOD_DELIVERY:
-          if (mobileNumberArray.includes(mobileNumber)) {
-            grant = { grant: GrantEnum.FOOD_DELIVERY, priority: true }
-          } else {
-            grant = { grant: GrantEnum.FOOD_DELIVERY, priority: false }
-          }
-          break
-        default:
-          throw new Error(ErrorEnum.PRIORITY_PERMISSION_NOT_FOUND)
-      }
+      const { priorityGrant, mobileNumber } = req.query
+
+      console.log(
+        `[priorityController::get] Searching for ${JSON.stringify(priorityGrant)} linked to smsNumber ${JSON.stringify(
+          mobileNumber
+        )}`
+      )
+
+      const grant = await this.priorityService.findGrantByMobileNo(priorityGrant, mobileNumber)
+
+      console.log(`[priorityController::get] Complete - returning ${JSON.stringify(grant)}`)
       res.status(constants.HTTP_STATUS_OK).json(grant)
     } catch (err) {
-      switch (err.message) {
-        case ErrorEnum.PRIORITY_PERMISSION_NOT_FOUND:
-          res.status(404).end()
-          break
-        default:
-          res.status(500).end()
-      }
+      console.error('[priorityController::get] ' + err.message)
+      next(err)
     }
   }
 }

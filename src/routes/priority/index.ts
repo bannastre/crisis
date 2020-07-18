@@ -1,8 +1,18 @@
-import express, { Request, Response, NextFunction } from 'express'
+import express, { Router } from 'express'
 import { PriorityController } from '../../controllers'
+import { DbSchema } from '../../db'
+import PriorityService from '../../services/priority'
+import IdentityRepository from '../../db/repositories/identity'
 
-export const priorityRouter = express.Router()
+const priorityRouter = (dbSchema: DbSchema): Router => {
+  const thisRouter = express.Router()
+  const identityRepository = new IdentityRepository(dbSchema)
+  const priorityService = new PriorityService(identityRepository)
+  const priorityController = new PriorityController(priorityService)
 
-const priorityController = new PriorityController()
+  thisRouter.get('/', priorityController.get)
 
-priorityRouter.get('/', priorityController.get)
+  return thisRouter
+}
+
+export { priorityRouter }

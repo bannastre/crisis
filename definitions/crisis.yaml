@@ -12,49 +12,102 @@ info:
     name: Jigsaw XYZ 1.0
     url: https://www.jigsaw.xyz/license-v1.html
 servers:
-  - url: http://api.crisis.jigsaw.xyz/v1
+  - url: http://localhost:3000/crisis/
+  - url: https://crisis.azure-api.net/crisis/
 paths:
-  /priority:
+  /healthcheck/ping:
     get:
-      description: Returns the grant for a specific priority permission
-      operationId: get priority permission grant
+      description: Returns the state of liveliness for the service
+      operationId: ping
       parameters:
         - $ref: '#/components/parameters/xCorrelationId'
-        - $ref: '#/components/parameters/bearerAuthentication'
-        - $ref: '#/components/parameters/mobileNumberPathParameter'
-        - $ref: '#/components/parameters/priorityPermissionPathParameter'
       responses:
         '200':
-          description: Priority Permissions Response
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PermissionsResponse'
+                properties:
+                  message:
+                    type: string
+                    example: OK
         '401':
-          description: Priority Permissions Unauthorised Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UnauthorisedError'
+          $ref: '#/components/responses/401'
         '404':
-          description: 404 - Not Found Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NotFoundError'
+          $ref: '#/components/responses/404'
         '500':
-          description: Priority Permissions Server Error
+          $ref: '#/components/responses/500'
+  /healthcheck/ready:
+    get:
+      description: Returns the state of readiness for the service
+      operationId: ready
+      parameters:
+        - $ref: '#/components/parameters/xCorrelationId'
+      responses:
+        '200':
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InternalServerError'
-        default:
-          description: Priority Permissions Invalid Request Error
+                properties:
+                  message:
+                    type: string
+                    example: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /priority:
+    get:
+      description: Returns the grant for a specific priority grant
+      operationId: get priority grant
+      parameters:
+        - $ref: '#/components/parameters/xCorrelationId'
+        - $ref: '#/components/parameters/OcpApimSubscriptionKey'
+        - $ref: '#/components/parameters/bearerAuthentication'
+        - $ref: '#/components/parameters/mobileNumberPathParameter'
+        - $ref: '#/components/parameters/priorityGrantPathParameter'
+      responses:
+        '200':
+          description: Priority Grants Response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InvalidRequestError'
+                $ref: '#/components/schemas/PriorityResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 components:
+  responses:
+    '401':
+      description: Unauthorised Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UnauthorisedError'
+    '404':
+      description: Not Found Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotFoundError'
+    '500':
+      description: Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InternalServerError'
+    default:
+      description: Invalid Request Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InvalidRequestError'
   parameters:
     xCorrelationId:
       name: x-correlation-id
@@ -64,11 +117,11 @@ components:
       schema:
         type: string
         format: uuid
-    xTenantNamespace:
-      name: x-tenant-namespace
+    OcpApimSubscriptionKey:
+      name: Ocp-Apim-Subscription-Key
       required: true
       in: header
-      description: Tenant identity.
+      description: Apim Subscription Key.
       schema:
         type: string
     bearerAuthentication:
@@ -86,31 +139,25 @@ components:
       description: Mobile Number
       schema:
         type: string
-    priorityPermissionPathParameter:
-      name: priorityPermission
-      required: true
+    priorityGrantPathParameter:
+      name: priorityGrant
       in: query
-      description: Priority Permission from Enum
+      description: Priority Grant from Enum
       schema:
         type: string
   schemas:
-    PermissionsResponse:
-      title: Permission Response
+    PriorityResponse:
+      title: Priority Response
       additionalProperties: false
       required:
-        - permission
+        - priority
+        - valid
       properties:
-        permission:
-          type: object
-          additionalProperties: false
-          required:
-            - grant
-            - priority
-          properties:
-            grant:
-              type: string
-            priority:
-              type: boolean
+        priority:
+          type: string
+          example: 'key worker'
+        valid:
+          type: boolean
     NotFoundError:
       title: Not Found Error
       additionalProperties: false

@@ -16,32 +16,51 @@ const cors_1 = __importDefault(require("cors"));
 const express_1 = __importDefault(require("express"));
 const morgan_1 = __importDefault(require("morgan"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
-const config_1 = __importDefault(require("../config"));
+const config_1 = __importDefault(require("./config"));
+const db_1 = require("./db");
 const routes_1 = __importDefault(require("./routes"));
+const express_openapi_validator_1 = require("express-openapi-validator");
+const path_1 = __importDefault(require("path"));
 const app = express_1.default();
 function start() {
     return __awaiter(this, void 0, void 0, function* () {
         console.debug('configuring using....');
         console.debug(config_1.default);
+        const dbSchema = new db_1.DbSchema(new db_1.Db(config_1.default.connection));
+        let connections;
+        if (config_1.default.env !== 'test') {
+            connections = yield dbSchema.initialiseDatabaseConnections();
+            connections.map((connection) => {
+                console.log(`${connection.name}: ${connection.options.username}@${connection.options.host}:${connection.options.port}
+        (${connection.options.database})\n`, `connected: ${connection.isConnected}`);
+            });
+        }
         app.disable('x-powered-by');
         app.use(cors_1.default());
         app.use(morgan_1.default('dev'));
         app.use(express_1.default.json());
+        app.use(express_1.default.text());
         app.use(express_1.default.urlencoded({ extended: false }));
         app.use(cookie_parser_1.default());
-        // TODO: security
-        // TODO: schema validation
-        app.use(config_1.default.basePath, routes_1.default);
-        // error handler
-        app.use((err, req, res, next) => {
-            // set locals, only providing error in development
-            res.locals.message = err.message;
-            res.locals.error = req.app.get('env') === 'development' ? err : {};
-            res.status(err.status || 500);
-            next(err);
-        });
-        return app.listen(config_1.default.port, () => {
-            console.log(`Express server listening on port ${config_1.default.port} in ${config_1.default.env} mode with base path of ${config_1.default.basePath}.`);
+        // TODO: security - check jwt
+        return yield new express_openapi_validator_1.OpenApiValidator({
+            apiSpec: path_1.default.join(__dirname, '../../definitions/crisis.yaml'),
+            validateRequests: { allowUnknownQueryParameters: false },
+            validateResponses: true,
+            unknownFormats: ['jwt', 'uuid'],
+        })
+            .install(app)
+            .then(() => {
+            app.use(config_1.default.basePath, routes_1.default(dbSchema));
+            app.use((err, req, res, next) => {
+                res.locals.message = err.message;
+                res.locals.error = req.app.get('env') === 'development' ? err : {};
+                res.status(err.status || 500);
+                next(err);
+            });
+            return app.listen(config_1.default.port, () => {
+                console.log(`Express server listening on port ${config_1.default.port} in ${config_1.default.env} mode with base path of ${config_1.default.basePath}.`);
+            });
         });
     });
 }

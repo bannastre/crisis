@@ -12,19 +12,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// tslint:disable: no-console
+// tslint:disable: no-console only-arrow-functions
 const dotenv_1 = __importDefault(require("dotenv"));
 const chai_1 = __importDefault(require("chai"));
 const cucumber_1 = require("cucumber");
 const request_promise_1 = __importDefault(require("request-promise"));
 const uuid_1 = require("uuid");
 const app_1 = require("../src/app");
-const config_1 = __importDefault(require("../config"));
+const config_1 = __importDefault(require("../src/config"));
 dotenv_1.default.config();
 chai_1.default.should();
-cucumber_1.BeforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
-    yield app_1.start();
-}));
+cucumber_1.BeforeAll(function () {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield app_1.start();
+    });
+});
 cucumber_1.Before(function (scenario) {
     console.log('\nScenario: ', scenario.pickle.name);
     this.headers = { 'x-correlation-id': uuid_1.v4(), 'x-person-id': uuid_1.v4() };

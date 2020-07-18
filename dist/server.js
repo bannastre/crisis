@@ -8,15 +8,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
 const app_1 = require("./src/app");
 const init = () => __awaiter(void 0, void 0, void 0, function* () {
-    const server = yield app_1.start();
+    yield app_1.start();
 });
 init();
 //# sourceMappingURL=server.js.map

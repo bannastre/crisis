@@ -1,11 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var GrantEnum;
-(function (GrantEnum) {
-    GrantEnum["FOOD_DELIVERY"] = "food::delivery";
-})(GrantEnum = exports.GrantEnum || (exports.GrantEnum = {}));
-var ErrorEnum;
-(function (ErrorEnum) {
-    ErrorEnum["PRIORITY_PERMISSION_NOT_FOUND"] = "404 - Not Found";
-})(ErrorEnum = exports.ErrorEnum || (exports.ErrorEnum = {}));
+const enums_1 = require("./enums");
+exports.GrantEnum = enums_1.GrantEnum;
+exports.ErrorEnum = enums_1.ErrorEnum;
+exports.IdentityTypeEnum = enums_1.IdentityTypeEnum;
 //# sourceMappingURL=index.js.map

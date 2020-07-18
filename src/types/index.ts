@@ -1,18 +1,9 @@
-import { Request } from 'express'
+import { GrantEnum, ErrorEnum, IdentityTypeEnum } from './enums'
+import { IScopedRequest, IGrantResponse } from './contracts'
 
-export enum GrantEnum {
-  FOOD_DELIVERY = 'food::delivery',
+interface IGrant {
+  priority: GrantEnum
+  valid: boolean
 }
 
-export enum ErrorEnum {
-  PRIORITY_PERMISSION_NOT_FOUND = '404 - Not Found',
-}
-
-export interface IScopedRequest extends Request {
-  user: any
-}
-
-export interface IGrant {
-  grant: GrantEnum
-  priority: boolean
-}
+export { ErrorEnum, GrantEnum, IdentityTypeEnum, IGrant, IGrantResponse, IScopedRequest }
