@@ -6,6 +6,10 @@ This README would normally document whatever steps are necessary to get your app
 
 Crisis is an API to query a database of Key Workers during a public health crisis.
 
+The API powers Proven Priority - See the demo up and running at https://provenpriority.com
+
+![Proven Priority](demo_page.png 'Proven Priority - Powered by the Crisis API')
+
 ### [TLDR] Getting Up & Running
 
 - pull down the repo with `git clone git@gitlab.spokedev.xyz:crisis/crisis-backend.git`
