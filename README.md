@@ -2,6 +2,10 @@
 
 This README would normally document whatever steps are necessary to get your application up and running.
 
+## What is this?
+
+Crisis is an API to query a database of Key Workers during a public health crisis.
+
 ### [TLDR] Getting Up & Running
 
 - pull down the repo with `git clone git@gitlab.spokedev.xyz:crisis/crisis-backend.git`
