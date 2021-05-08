@@ -48,7 +48,7 @@
     "promisify": "0.0.3",
     "reflect-metadata": "^0.1.13",
     "supertest": "^4.0.2",
-    "typeorm": "^0.2.24",
+    "typeorm": "^0.2.25",
     "typescript-tslint-plugin": "^0.5.5"
   },
   "devDependencies": {
